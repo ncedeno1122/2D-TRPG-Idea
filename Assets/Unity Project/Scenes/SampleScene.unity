@@ -268,6 +268,7 @@ MonoBehaviour:
   ActionTilemap: {fileID: 2011383377}
   WalkableTile: {fileID: 11400000, guid: c165e439f74bf2241bc0a6421948bec0, type: 2}
   AttackableTile: {fileID: 11400000, guid: 025549180177785439c903407b98d7ec, type: 2}
+  OriginTile: {fileID: 11400000, guid: e8d21a296b3c4d5449a7fe65be4b7e12, type: 2}
   ValidMoveTiles: []
   ValidAttackTiles: []
 --- !u!1 &1349842580

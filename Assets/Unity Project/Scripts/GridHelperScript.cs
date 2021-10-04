@@ -12,7 +12,7 @@ public class GridHelperScript : MonoBehaviour
     public Tilemap BattleTilemap;
     public Tilemap ActionTilemap;
 
-    public Tile WalkableTile, AttackableTile;
+    public Tile WalkableTile, AttackableTile, OriginTile;
 
     public List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
     public List<Vector3Int> ValidAttackTiles = new List<Vector3Int>();
@@ -21,59 +21,48 @@ public class GridHelperScript : MonoBehaviour
     // + + + + | Functions | + + + +
 
     /// <summary>
-    /// Recursively finds all walkable and attackable Tiles around an origin point.
+    /// Recursively finds all valid movement tiles within the moveRange
     /// </summary>
-    /// <param name="origin"></param>
     /// <param name="positionToCheck"></param>
-    /// <param name="range"></param>
-    /// <param name="actionRange"></param>
-    private void RecursivelyGetInteractionRange(Vector3Int origin, Vector3Int positionToCheck, int range,
-        int actionRange)
+    /// <param name="moveRange"></param>
+    private void RecursivelyGetMoveRange(Vector3Int positionToCheck, int moveRange)
     {
-        // Do we know this Tile already?
-        if (ValidMoveTiles.Contains(positionToCheck) || ValidAttackTiles.Contains(positionToCheck))
-        {
-            return;
-        }
-        // If the Tile is unknown,
-        else
+        // If the Tile is unknown and within our WalkableRange
+        if (moveRange >= 0)
         {
             var currTile = BattleTilemap.GetTile(positionToCheck) as TerrainScriptableTile;
-            
+
             if (currTile)
             {
-                int manhattanFromOrigin = GetManhattanDistance(origin, positionToCheck);
-                
-                // Is the Tile passable?
+                // Is the tile passable?
                 if (currTile.IsPassable)
                 {
-                    // Then, is the Tile walkable?
-                    if (manhattanFromOrigin + currTile.MovementCost <= range)
-                    {
-                        ValidMoveTiles.Add(positionToCheck);
+                    ValidMoveTiles.Add(positionToCheck);
 
-                        // Recurse!
-                        RecursivelyGetInteractionRange(origin, positionToCheck + Vector3Int.up, range, actionRange);
-                        RecursivelyGetInteractionRange(origin, positionToCheck + Vector3Int.left, range, actionRange);
-                        RecursivelyGetInteractionRange(origin, positionToCheck + Vector3Int.right, range, actionRange);
-                        RecursivelyGetInteractionRange(origin, positionToCheck + Vector3Int.down, range, actionRange);
-                    }
-                    // If not, is it Attackable?
-                    else
-                    {
-                        if (manhattanFromOrigin + currTile.MovementCost <= range + actionRange)
-                        {
-                            ValidAttackTiles.Add(positionToCheck);
-                        }
-                    }
+                    // Recurse!
+                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.up, moveRange - 1 + currTile.MovementCost);
+                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.right, moveRange - 1 + currTile.MovementCost);
+                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.left, moveRange - 1 + currTile.MovementCost);
+                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.down, moveRange - 1 + currTile.MovementCost);
                 }
+            }
+        }
+    }
 
-                // If not, is it at least Attackable?
-                else
+    private void GetActionRange(Vector3Int positionToCheck, int actionRange)
+    {
+        foreach (Vector3Int position in ValidMoveTiles)
+        {
+            for (int x = position.x - actionRange; x <= position.x + actionRange; x++)
+            {
+                for (int y = position.y - actionRange; y <= position.y + actionRange; y++)
                 {
-                    if (manhattanFromOrigin + currTile.MovementCost <= range + actionRange)
+                    var currTilePosition = new Vector3Int(x, y, 0);
+                    if (GetManhattanDistance(position, currTilePosition) > actionRange) continue;
+                    if (!ValidAttackTiles.Contains(currTilePosition) &&
+                        !ValidMoveTiles.Contains(currTilePosition))
                     {
-                        ValidAttackTiles.Add(positionToCheck);
+                        ValidAttackTiles.Add(currTilePosition);
                     }
                 }
             }
@@ -82,9 +71,12 @@ public class GridHelperScript : MonoBehaviour
 
     public void PaintInteractionRange(int range, int actionRange, Vector3Int position)
     {
+        ValidMoveTiles.Clear();
+        ValidAttackTiles.Clear();
         ActionTilemap.ClearAllTiles();
 
-        RecursivelyGetInteractionRange(position, position, range, actionRange);
+        RecursivelyGetMoveRange(position, range);
+        GetActionRange(position, actionRange);
         
         foreach (Vector3Int tilePosition in ValidMoveTiles)
         {
@@ -96,8 +88,7 @@ public class GridHelperScript : MonoBehaviour
             ActionTilemap.SetTile(tilePosition, AttackableTile);
         }
         
-        ValidMoveTiles.Clear();
-        ValidAttackTiles.Clear();
+        ActionTilemap.SetTile(position, OriginTile);
     }
 
     private int GetManhattanDistance(Vector3Int a, Vector3Int b)
