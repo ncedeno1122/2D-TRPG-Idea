@@ -32,7 +32,7 @@ public class GridCursorController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             //
-            m_gridHelper.PaintInteractionRange(4, 2, Vector3Int.FloorToInt(mousePositionWorld));
+            m_gridHelper.PaintInteractionRange(3, 1, Vector3Int.FloorToInt(mousePositionWorld));
         }
     }
 

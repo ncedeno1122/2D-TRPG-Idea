@@ -37,7 +37,10 @@ public class GridHelperScript : MonoBehaviour
                 // Is the tile passable?
                 if (currTile.IsPassable)
                 {
-                    ValidMoveTiles.Add(positionToCheck);
+                    if (!ValidMoveTiles.Contains(positionToCheck))
+                    {
+                        ValidMoveTiles.Add(positionToCheck);
+                    }
 
                     // Recurse!
                     RecursivelyGetMoveRange(positionToCheck + Vector3Int.up, moveRange - 1 + currTile.MovementCost);
@@ -49,7 +52,11 @@ public class GridHelperScript : MonoBehaviour
         }
     }
 
-    private void GetActionRange(Vector3Int positionToCheck, int actionRange)
+    /// <summary>
+    /// Finds the Action range for a defined list of ValidMoveTiles
+    /// </summary>
+    /// <param name="actionRange"></param>
+    private void GetActionRange(int actionRange)
     {
         foreach (Vector3Int position in ValidMoveTiles)
         {
@@ -76,7 +83,7 @@ public class GridHelperScript : MonoBehaviour
         ActionTilemap.ClearAllTiles();
 
         RecursivelyGetMoveRange(position, range);
-        GetActionRange(position, actionRange);
+        GetActionRange(actionRange);
         
         foreach (Vector3Int tilePosition in ValidMoveTiles)
         {
