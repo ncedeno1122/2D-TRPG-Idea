@@ -7,6 +7,7 @@ public class TerrainScriptableTile : Tile
 {
     //public Sprite m_Preview;
     public int MovementCost;
+    public bool IsPassable;
     
     // + + + + | Functions | + + + + 
 
@@ -41,7 +42,7 @@ public class TerrainScriptableTile : Tile
     {
         return tilemap.GetTile(position) == this;
     }
-    
+
 #if UNITY_EDITOR
     [MenuItem("Assets/Create/TerrainScriptableTile")]
     public static void CreateTerrainScriptableTile()

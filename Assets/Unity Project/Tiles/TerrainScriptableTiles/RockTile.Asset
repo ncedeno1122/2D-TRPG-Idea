@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7861de5d60a94e24ebbf7928f9b462e1, type: 3}
-  m_Name: GrassTST
+  m_Name: RockTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: f9f1fd07d0be52f479d58a6808fac5f4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b8fd7771c68b55c42a6f4f3ccc478e87, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -31,8 +31,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  m_InstancedGameObject: {fileID: 4997835768725938490, guid: c60fe79e800503f4f8f8b16574f919f9, type: 3}
+  m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  MovementCost: 0
-  IsPassable: 1
+  MovementCost: -1
