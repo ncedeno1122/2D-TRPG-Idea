@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New DamageItem", menuName = "ScriptableObjects/DamageItem", order = 3)]
+[CreateAssetMenu(fileName = "New DamageItem", menuName = "ScriptableObjects/Items/DamageItem", order = 2)]
 public class DamageItem : Item
 {
     [Header("Prototype")]

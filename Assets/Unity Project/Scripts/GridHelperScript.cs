@@ -48,7 +48,7 @@ public class GridHelperScript : MonoBehaviour
     /// "Selects" the Tile under the cursor, helping UI find what it needs to.
     /// </summary>
     /// <param name="tilePosition"></param>
-    public void SelectTile(Vector3Int tilePosition)
+    public void SelectTile(Vector3Int tilePosition) // TODO: Deselect Tile if already Selected.
     {
         // Tile info
         var currTileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;

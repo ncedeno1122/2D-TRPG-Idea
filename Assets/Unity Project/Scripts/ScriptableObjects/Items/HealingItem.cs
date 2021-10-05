@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New HealingItem", menuName = "ScriptableObjects/HealingItem", order = 4)]
+[CreateAssetMenu(fileName = "New HealingItem", menuName = "ScriptableObjects/Items/HealingItem", order = 3)]
 public class HealingItem : Item
 {
     [Header("Prototype")]

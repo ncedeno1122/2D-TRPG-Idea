@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New PercentHealingItem", menuName = "ScriptableObjects/PercentHealingItem", order = 5)]
+[CreateAssetMenu(fileName = "New PercentHealingItem", menuName = "ScriptableObjects/Items/PercentHealingItem", order = 4)]
 public class PercentHealingItem : Item
 {
     [Header("Prototype")]

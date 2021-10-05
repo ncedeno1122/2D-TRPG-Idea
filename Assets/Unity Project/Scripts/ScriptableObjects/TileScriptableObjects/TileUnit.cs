@@ -9,7 +9,7 @@ public enum UnitType
     MAGE = 2
 }
 
-[CreateAssetMenu(fileName = "New TileUnit", menuName = "ScriptableObjects/TileUnit", order = 1)]
+[CreateAssetMenu(fileName = "New TileUnit", menuName = "ScriptableObjects/TileUnits/TileUnit", order = 1)]
 public class TileUnit : ScriptableObject
 {
     public UnitType UnitType;

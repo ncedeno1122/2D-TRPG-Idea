@@ -13,7 +13,7 @@ public enum Allegiance
     //NEUTRAL=4
 }
 
-[CreateAssetMenu(fileName = "New CharacterUnit", menuName = "ScriptableObjects/CharacterUnit", order = 2)]
+[CreateAssetMenu(fileName = "New CharacterUnit", menuName = "ScriptableObjects/TileUnits/CharacterUnit", order = 2)]
 public class CharacterUnit : ScriptableObject
 {
     [Header("Identification")]
