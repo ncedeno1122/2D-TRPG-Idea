@@ -16,8 +16,7 @@ public class GridHelperScript : MonoBehaviour
 
     public List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
     public List<Vector3Int> ValidAttackTiles = new List<Vector3Int>();
-    
-    
+
     // + + + + | Functions | + + + +
 
     /// <summary>
@@ -84,17 +83,17 @@ public class GridHelperScript : MonoBehaviour
 
         RecursivelyGetMoveRange(position, range);
         GetActionRange(actionRange);
-        
+
         foreach (Vector3Int tilePosition in ValidMoveTiles)
         {
             ActionTilemap.SetTile(tilePosition, WalkableTile);
         }
-        
+
         foreach (Vector3Int tilePosition in ValidAttackTiles)
         {
             ActionTilemap.SetTile(tilePosition, AttackableTile);
         }
-        
+
         ActionTilemap.SetTile(position, OriginTile);
     }
 
