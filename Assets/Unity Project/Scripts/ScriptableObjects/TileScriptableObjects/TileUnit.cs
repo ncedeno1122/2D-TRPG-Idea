@@ -15,12 +15,12 @@ public class TileUnit : ScriptableObject
     public UnitType UnitType;
 
     [Header("Stats")]
+    public int Level = 1;
+
     public int MaxHP;
 
-    public int CurrentHP;
     public int PhysicalAttack, MagicalAttack;
     public int PhysicalDefense, MagicalDefense;
-    public int Level = 1;
 
     [Header("Tile-Related Info")]
     public int MoveRange;

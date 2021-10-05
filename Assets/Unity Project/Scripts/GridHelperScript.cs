@@ -11,13 +11,67 @@ public class GridHelperScript : MonoBehaviour
 {
     public Tilemap BattleTilemap;
     public Tilemap ActionTilemap;
+    public Transform TileEntities; // Helps me keep track of ALL TileEntities
 
     public Tile WalkableTile, AttackableTile, OriginTile;
 
     public List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
     public List<Vector3Int> ValidAttackTiles = new List<Vector3Int>();
 
+    public List<CharacterUnitScript> CharacterUnits;
+
+    private void Start()
+    {
+        foreach (Transform child in TileEntities)
+        {
+            var cus = child.GetComponent<CharacterUnitScript>();
+            if (cus)
+            {
+                //Debug.Log($"Added {child.name} to CharacterUnits list!");
+                CharacterUnits.Add(cus);
+            }
+        }
+    }
+
     // + + + + | Functions | + + + +
+
+    /// <summary>
+    /// "Selects" the Tile under the cursor, helping UI find what it needs to.
+    /// </summary>
+    /// <param name="tilePosition"></param>
+    public void SelectTile(Vector3Int tilePosition)
+    {
+        // Tile info
+        var currTileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;
+
+        // CharacterUnit info
+        var characterOnTile = GetCharacterOnTile(tilePosition);
+
+        //
+
+        if (currTileData)
+        {
+            Debug.Log($"Tile is a {currTileData.name}, movement cost of {currTileData.MovementCost}, and its passability is {currTileData.IsPassable}.");
+        }
+        if (characterOnTile)
+        {
+            var charData = characterOnTile.UnitData;
+            Debug.Log($"Character on Tile is {charData.Name}, a {charData.Allegiance} {charData.Prototype.name}.");
+        }
+    }
+
+    private CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
+    {
+        foreach (CharacterUnitScript cus in CharacterUnits)
+        {
+            if (cus.TilePosition == tilePosition)
+            {
+                return cus;
+            }
+        }
+
+        return null;
+    }
 
     /// <summary>
     /// Recursively finds all valid movement tiles within the moveRange

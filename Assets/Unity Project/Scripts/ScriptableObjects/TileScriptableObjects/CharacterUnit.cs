@@ -29,7 +29,4 @@ public class CharacterUnit : ScriptableObject
     public int XPToNextLevel;
 
     public int CurrentXP;
-
-    [Header("Inventory")]
-    public Item[] Inventory = new Item[5];
 }

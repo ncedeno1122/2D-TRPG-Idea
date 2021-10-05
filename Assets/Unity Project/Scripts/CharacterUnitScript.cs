@@ -4,36 +4,36 @@ using UnityEngine;
 
 public class CharacterUnitScript : MonoBehaviour
 {
+    public int CurrentHP;
     public Vector3Int TilePosition;
-    private bool IsMoving;
-
     public CharacterUnit UnitData;
-    public Grid Grid;
+
+    [SerializeField]
+    public Item[] Inventory = new Item[INVENTORY_SIZE];
+
+    private const int INVENTORY_SIZE = 5;
+    private bool IsMoving;
+    private bool IsDead;
+    private Grid m_Grid; // TODO: Do we even need a reference to the Grid?
 
     private void Start()
     {
+        m_Grid = transform.parent.parent.GetComponent<Grid>();
+
         gameObject.name = UnitData.Name;
 
         // TODO: Should be optional somehow.
         TilePosition = Vector3Int.FloorToInt(transform.position);
-        transform.position = Grid.GetCellCenterWorld(TilePosition);
+        transform.position = m_Grid.GetCellCenterWorld(TilePosition);
+    }
 
-        for (int i = 0; i < UnitData.Inventory.Length - 1; i++)
+    private void OnValidate()
+    {
+        // Helps prevent resizing of the StoredInventory array in the editor!
+        if (Inventory.Length != INVENTORY_SIZE)
         {
-            var item = UnitData.Inventory[i];
-
-            if (item)
-            {
-                if (item is Weapon)
-                {
-                    var weapon = item as Weapon;
-                    Debug.Log($"{weapon.Name} is a { weapon.WeaponElement } { weapon.DamageType } weapon with { weapon.BaseDamageAmount } base damage, {weapon.WeaponAccuracy } accuracy, and an attack range of { weapon.AttackRange }.");
-                }
-                else
-                {
-                    Debug.Log($"{item.Name} has a price of {item.Price}.");
-                }
-            }
+            Debug.LogWarning("Don't change the StoredInventory field's array size!");
+            System.Array.Resize(ref Inventory, INVENTORY_SIZE);
         }
     }
 
@@ -43,7 +43,7 @@ public class CharacterUnitScript : MonoBehaviour
     {
         if (!IsMoving)
         {
-            var moveToCRT = MoveToCRT(transform.position, Grid.GetCellCenterWorld(newPosition));
+            var moveToCRT = MoveToCRT(transform.position, m_Grid.GetCellCenterWorld(newPosition));
             StartCoroutine(moveToCRT);
         }
     }
