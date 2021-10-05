@@ -2,29 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DamageType
-{
-    PHYSICAL = 1,
-    MAGICAL = 2,
-    TRUE = 3
-}
-
-public enum WeaponElement
-{
-    NONE = 1,
-    FIRE = 2,
-    LIGHTNING = 3,
-    DARK = 4,
-    LIGHT = 5
-}
-
-[CreateAssetMenu(fileName = "New Weapon", menuName = "ScriptableObjects/Weapon", order = 3)]
-public class Weapon : Item
+[CreateAssetMenu(fileName = "New DamageItem", menuName = "ScriptableObjects/DamageItem", order = 3)]
+public class DamageItem : Item
 {
     [Header("Prototype")]
-    public Weapon Prototype;
+    public DamageItem Prototype;
 
-    [Header("Weapon Stats (Overriden if Prototype is defined)")]
+    [Header("Damage Stats (Overrides if Prototype is defined)")]
     [SerializeField]
     private DamageType damageType;
 
@@ -62,11 +46,11 @@ public class Weapon : Item
     }
 
     [SerializeField]
-    private int attackRange;
+    private int range;
 
-    public int AttackRange
+    public int Range
     {
-        get { return (Prototype && attackRange == 0) ? Prototype.AttackRange : attackRange; }
-        set => attackRange = value;
+        get { return (Prototype && range == 0) ? Prototype.Range : range; }
+        set => range = value;
     }
 }

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7861de5d60a94e24ebbf7928f9b462e1, type: 3}
-  m_Name: RockTile
+  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: HealableTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: b8fd7771c68b55c42a6f4f3ccc478e87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6bea9706a14f71b458fa976be55a273f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,4 +34,3 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  MovementCost: -1

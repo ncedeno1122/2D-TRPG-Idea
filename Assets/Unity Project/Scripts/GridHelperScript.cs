@@ -9,13 +9,22 @@ using UnityEngine.Tilemaps;
 
 public class GridHelperScript : MonoBehaviour
 {
+    [Header("Tilemaps and Entities")]
     public Tilemap BattleTilemap;
+
     public Tilemap ActionTilemap;
     public Transform TileEntities; // Helps me keep track of ALL TileEntities
 
-    public Tile WalkableTile, AttackableTile, OriginTile;
+    [Header("Tile Types")]
+    public Tile WalkableTile;
 
+    public Tile AttackableTile;
+    public Tile OriginTile;
+    public Tile HealableTile;
+
+    [Header("Informational Lists")]
     public List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
+
     public List<Vector3Int> ValidAttackTiles = new List<Vector3Int>();
 
     public List<CharacterUnitScript> CharacterUnits;
@@ -48,15 +57,17 @@ public class GridHelperScript : MonoBehaviour
         var characterOnTile = GetCharacterOnTile(tilePosition);
 
         //
-
         if (currTileData)
         {
-            Debug.Log($"Tile is a {currTileData.name}, movement cost of {currTileData.MovementCost}, and its passability is {currTileData.IsPassable}.");
+            //Debug.Log($"Tile is a {currTileData.name}, movement cost of {currTileData.MovementCost}, and its passability is {currTileData.IsPassable}.");
         }
         if (characterOnTile)
         {
             var charData = characterOnTile.UnitData;
-            Debug.Log($"Character on Tile is {charData.Name}, a {charData.Allegiance} {charData.Prototype.name}.");
+            var equippedWeapon = characterOnTile.EquippedWeapon;
+
+            PaintInteractionRange(charData.Prototype.MoveRange, equippedWeapon.Range, characterOnTile.TilePosition);
+            //Debug.Log($"Character on Tile is {charData.Name}, a {charData.Allegiance} {charData.Prototype.name}.");
         }
     }
 

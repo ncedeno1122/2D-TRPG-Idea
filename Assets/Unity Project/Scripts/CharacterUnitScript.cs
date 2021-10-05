@@ -11,6 +11,8 @@ public class CharacterUnitScript : MonoBehaviour
     [SerializeField]
     public Item[] Inventory = new Item[INVENTORY_SIZE];
 
+    public DamageItem EquippedWeapon;
+
     private const int INVENTORY_SIZE = 5;
     private bool IsMoving;
     private bool IsDead;
@@ -34,6 +36,19 @@ public class CharacterUnitScript : MonoBehaviour
         {
             Debug.LogWarning("Don't change the StoredInventory field's array size!");
             System.Array.Resize(ref Inventory, INVENTORY_SIZE);
+        }
+
+        // Equip first weapon in inventory if undefined
+        if (!EquippedWeapon)
+        {
+            for (int i = 0; i < Inventory.Length - 1; i++)
+            {
+                var item = Inventory[i];
+                if (item is DamageItem)
+                {
+                    EquippedWeapon = item as DamageItem;
+                }
+            }
         }
     }
 

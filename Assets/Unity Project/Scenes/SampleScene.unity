@@ -271,6 +271,7 @@ MonoBehaviour:
   WalkableTile: {fileID: 11400000, guid: c165e439f74bf2241bc0a6421948bec0, type: 2}
   AttackableTile: {fileID: 11400000, guid: 025549180177785439c903407b98d7ec, type: 2}
   OriginTile: {fileID: 11400000, guid: e8d21a296b3c4d5449a7fe65be4b7e12, type: 2}
+  HealableTile: {fileID: 11400000, guid: f87c6fdef99225240a007a03840951b3, type: 2}
   ValidMoveTiles: []
   ValidAttackTiles: []
   CharacterUnits: []
@@ -321,13 +322,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentHP: 0
   TilePosition: {x: 0, y: 0, z: 0}
-  UnitData: {fileID: 11400000, guid: ff800554047f76d4c8f886b52a98285e, type: 2}
+  UnitData: {fileID: 11400000, guid: 6ba9246a8e03bad4d94ca58affc2d569, type: 2}
   Inventory:
+  - {fileID: 11400000, guid: 507838b71fe08c64292982360a0b9892, type: 2}
+  - {fileID: 11400000, guid: 3a9f286c9dab6b8439cec2dd3f8073ff, type: 2}
+  - {fileID: 11400000, guid: f544781f827906f47bbf85c18f1d16a0, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  EquippedWeapon: {fileID: 11400000, guid: 3a9f286c9dab6b8439cec2dd3f8073ff, type: 2}
 --- !u!212 &1001083280
 SpriteRenderer:
   m_ObjectHideFlags: 0

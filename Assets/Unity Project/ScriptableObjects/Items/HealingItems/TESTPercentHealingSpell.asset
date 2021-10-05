@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2112f24fd71fb96428d1e612cf6b0781, type: 3}
-  m_Name: TESTItem1
+  m_Script: {fileID: 11500000, guid: 47aab4bdbe04e104084f0e2ebea38c85, type: 3}
+  m_Name: TESTPercentHealingSpell
   m_EditorClassIdentifier: 
-  Name: Test Item 1
-  Price: 50
-  UsesTotal: 1
-  UsesLeft: 1
+  Name: TESTPercentHealingSpell
+  Price: 250
+  UsesTotal: 15
+  UsesLeft: 15
+  Prototype: {fileID: 0}
+  percentHealingAmount: 0.3
+  range: 2

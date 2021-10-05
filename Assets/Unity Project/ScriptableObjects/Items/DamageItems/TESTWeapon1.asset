@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6fa021b33b9c4e4e862c526fbb01cec, type: 3}
-  m_Name: TESTWeapon2
+  m_Name: TESTWeapon1
   m_EditorClassIdentifier: 
-  Name: Test Weapon 2 (Prototype of 1)
-  Price: 275
-  Prototype: {fileID: 11400000, guid: 3a9f286c9dab6b8439cec2dd3f8073ff, type: 2}
-  damageType: 0
-  weaponElement: 2
-  baseDamageAmount: 0
-  weaponAccuracy: 0
-  attackRange: 0
+  Name: Test Weapon 1
+  Price: 250
+  UsesTotal: 45
+  UsesLeft: 45
+  Prototype: {fileID: 0}
+  damageType: 1
+  weaponElement: 1
+  baseDamageAmount: 10
+  weaponAccuracy: 0.9
+  attackRange: 1
