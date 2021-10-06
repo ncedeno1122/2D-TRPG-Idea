@@ -248,8 +248,28 @@ public class GridHelperScript : MonoBehaviour
         {
             Position = position;
         }
+
+        public override bool Equals(System.Object o)
+        {
+            if (o == null) return false;
+            GridNode other = o as GridNode;
+            if (other == null) return false;
+            else return Equals(other);
+        }
+
+        public bool Equals(GridNode other)
+        {
+            if (other == null) return false;
+            return (this.Position.Equals(other.Position));
+        }
     }
 
+    /// <summary>
+    /// Uses the A* Algorithm to find a Path within the ValidMoveTiles List
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
     private Queue<Vector3Int> FindWalkablePathToTarget(Vector3Int origin, Vector3Int target)
     {
         GridNode start = new GridNode(origin);
@@ -262,12 +282,13 @@ public class GridHelperScript : MonoBehaviour
 
         openList.Add(start);
 
-        while (openList.Count > 0 && !closedList.Exists(x => x.Position == end.Position))
+        while (openList.Count != 0 && !closedList.Exists(x => x.Position == end.Position))
         {
             current = openList[0];
             openList.Remove(current);
             closedList.Add(current);
             adjacents = GetInteractableAdjacents(current);
+            ActionTilemap.SetTile(current.Position, HealableTile);
 
             foreach (GridNode node in adjacents)
             {
@@ -299,9 +320,11 @@ public class GridHelperScript : MonoBehaviour
         do
         {
             path.Enqueue(temp.Position);
+            ActionTilemap.SetTile(temp.Position, OriginTile);
             temp = temp.Parent;
         } while (temp != start && temp != null);
 
+        Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
         return path;
     }
 
