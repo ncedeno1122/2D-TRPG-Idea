@@ -41,7 +41,8 @@ public class GridHelperScript : MonoBehaviour
     public GridHelperState CurrentState = GridHelperState.NO_TILE_SELECTED;
 
     public Vector3Int SelectedOriginTile, SelectedTargetTile;
-    public Queue<Vector3Int> SelectedTilePath;
+    public CharacterUnitScript SelectedCharacterUnit;
+    public Queue<Vector3Int> SelectedTilePath = new Queue<Vector3Int>();
 
     private void OnValidate()
     {
@@ -90,6 +91,7 @@ public class GridHelperScript : MonoBehaviour
                     // Mark tile as selected
                     CurrentState = GridHelperState.FIRST_TILE_SELECTED;
                     SelectedOriginTile = tilePosition;
+                    SelectedCharacterUnit = characterOnTile;
 
                     // Paint Interaction Range, which defines legal SelectedTargetTile candidates!
                     Debug.Log($"Found character {charData.Name} on SelectedOriginTile {SelectedOriginTile}! Painting Interaction Range.");
@@ -112,12 +114,13 @@ public class GridHelperScript : MonoBehaviour
                 SelectedTargetTile = tilePosition;
 
                 // TODO: Find Path to Target
-                SelectedTilePath = FindWalkablePathToTarget(SelectedOriginTile, SelectedTargetTile);
+                FindWalkablePathToTarget(SelectedOriginTile, SelectedTargetTile, ref SelectedTilePath);
+                SelectedCharacterUnit.FollowPath(SelectedTilePath);
 
-                foreach (Vector3Int position in SelectedTilePath)
-                {
-                    ActionTilemap.SetTile(position, OriginTile);
-                }
+                // Debug: FUN
+                CurrentState = GridHelperState.NO_TILE_SELECTED;
+                ClearSelectedTiles();
+                ClearInteractionRange();
 
                 // TODO: Pull up context UI and all that.
                 break;
@@ -262,6 +265,11 @@ public class GridHelperScript : MonoBehaviour
             if (other == null) return false;
             return (this.Position.Equals(other.Position));
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     /// <summary>
@@ -270,13 +278,12 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    private Queue<Vector3Int> FindWalkablePathToTarget(Vector3Int origin, Vector3Int target)
+    private void FindWalkablePathToTarget(Vector3Int origin, Vector3Int target, ref Queue<Vector3Int> path)
     {
         GridNode start = new GridNode(origin);
         GridNode end = new GridNode(target);
         List<GridNode> openList = new List<GridNode>();
         List<GridNode> closedList = new List<GridNode>();
-        Queue<Vector3Int> path = new Queue<Vector3Int>();
         List<GridNode> adjacents;
         GridNode current = start;
 
@@ -288,7 +295,7 @@ public class GridHelperScript : MonoBehaviour
             openList.Remove(current);
             closedList.Add(current);
             adjacents = GetInteractableAdjacents(current);
-            ActionTilemap.SetTile(current.Position, HealableTile);
+            //ActionTilemap.SetTile(current.Position, HealableTile);
 
             foreach (GridNode node in adjacents)
             {
@@ -311,21 +318,21 @@ public class GridHelperScript : MonoBehaviour
         // If there's no path, return null...
         if (!closedList.Exists(x => x.Position == end.Position))
         {
-            return null;
+            Debug.Log("No path found!");
+            return;
         }
 
         // Otherwise, assemble and return the path!
         GridNode temp = closedList[closedList.IndexOf(current)];
-        if (temp == null) return null;
+        if (temp == null) return;
         do
         {
             path.Enqueue(temp.Position);
-            ActionTilemap.SetTile(temp.Position, OriginTile);
+            ActionTilemap.SetTile(temp.Position, HealableTile);
             temp = temp.Parent;
         } while (temp != start && temp != null);
 
         Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
-        return path;
     }
 
     private List<GridNode> GetInteractableAdjacents(GridNode node)

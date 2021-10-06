@@ -54,30 +54,48 @@ public class CharacterUnitScript : MonoBehaviour
 
     // + + + + | Functions | + + + +
 
-    public void MoveTo(Vector3Int newPosition)
+    /// <summary>
+    /// Handles the FollowPathCRT, only allowing movement if not currently moving.
+    /// </summary>
+    /// <param name="path"></param>
+    public void FollowPath(Queue<Vector3Int> path)
     {
+        Vector3Int[] pathArr = path.ToArray();
+
         if (!IsMoving)
         {
-            var moveToCRT = MoveToCRT(transform.position, m_Grid.GetCellCenterWorld(newPosition));
-            StartCoroutine(moveToCRT);
+            var followPathCRT = FollowPathCRT(pathArr);
+            StartCoroutine(followPathCRT);
         }
     }
 
-    private IEnumerator MoveToCRT(Vector3 oldPosition, Vector3 newPosition)
+    /// <summary>
+    /// An IEnumerator that makes the character follow an array of path positions, following a path!
+    /// </summary>
+    /// <param name="pathArr"></param>
+    /// <returns></returns>
+    private IEnumerator FollowPathCRT(Vector3Int[] pathArr)
     {
-        int numSteps = 100;
-        float moveSpeed = 0.0125f;
+        float moveSpeed = 0.0175f; // Oroginal value: 0.0125f
+        Vector3 gridCenterPosition;
 
         IsMoving = true;
 
-        for (int i = 0; i <= numSteps; i++)
+        // For loops make me kinda scared in this instance...
+        for (int i = pathArr.Length - 1; i >= 0; i--)
         {
-            transform.position = Vector3.Lerp(oldPosition, newPosition, (float)i / numSteps);
-            yield return new WaitForSecondsRealtime(moveSpeed);
+            var path = pathArr[i];
+            gridCenterPosition = m_Grid.GetCellCenterWorld(path);
+
+            while (transform.position != gridCenterPosition)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, m_Grid.GetCellCenterWorld(path), 0.1f);
+                yield return new WaitForSeconds(moveSpeed);
+            }
         }
 
-        // When done,
+        // When finished,
         IsMoving = false;
-        TilePosition = Vector3Int.FloorToInt(newPosition);
+        TilePosition = Vector3Int.FloorToInt(pathArr[0]);
     }
 }

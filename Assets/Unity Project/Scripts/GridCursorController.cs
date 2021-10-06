@@ -32,7 +32,7 @@ public class GridCursorController : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         Vector3 mousePositionWorld = m_mainCamera.ScreenToWorldPoint(mousePosition);
         mousePositionWorld.z = 0;
-        Ray ray = m_mainCamera.ScreenPointToRay(mousePosition);
+        //Ray ray = m_mainCamera.ScreenPointToRay(mousePosition);
 
         // Move Cursor to Mouse Position
         transform.position = Grid.GetCellCenterWorld(Grid.WorldToCell(mousePositionWorld));
