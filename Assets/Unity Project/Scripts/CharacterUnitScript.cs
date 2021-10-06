@@ -8,8 +8,8 @@ public class CharacterUnitScript : MonoBehaviour
     public Vector3Int TilePosition;
     public CharacterUnit UnitData;
 
-    [SerializeField]
-    public IItem[] Inventory = new IItem[INVENTORY_SIZE];
+    [SerializeField] // TODO: It would be really nice to expose this somehow. [SerializeReference] won't work...
+    public IItem[] Inventory = new IItem[INVENTORY_SIZE]; // It's said that an abstract base class would work here...
 
     public BattleItemData EquippedBattleItem;
 

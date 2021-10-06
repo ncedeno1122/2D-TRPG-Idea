@@ -68,7 +68,6 @@ public class GridCursorController : MonoBehaviour
         // If Mouse1 Pressed
         if (Input.GetMouseButtonDown(0))
         {
-            //m_gridHelper.PaintInteractionRange(3, 1, Vector3Int.FloorToInt(mousePositionWorld));
             m_gridHelper.SelectTile(Vector3Int.FloorToInt(mousePositionWorld));
         }
     }

@@ -275,6 +275,9 @@ MonoBehaviour:
   ValidMoveTiles: []
   ValidAttackTiles: []
   CharacterUnits: []
+  CurrentState: 0
+  SelectedOriginTile: {x: 0, y: 0, z: 0}
+  SelectedTargetTile: {x: 0, y: 0, z: 0}
 --- !u!1 &1001083277
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,13 +326,7 @@ MonoBehaviour:
   CurrentHP: 0
   TilePosition: {x: 0, y: 0, z: 0}
   UnitData: {fileID: 11400000, guid: 6ba9246a8e03bad4d94ca58affc2d569, type: 2}
-  Inventory:
-  - {fileID: 11400000, guid: 507838b71fe08c64292982360a0b9892, type: 2}
-  - {fileID: 11400000, guid: 3a9f286c9dab6b8439cec2dd3f8073ff, type: 2}
-  - {fileID: 11400000, guid: f544781f827906f47bbf85c18f1d16a0, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  EquippedWeapon: {fileID: 11400000, guid: 3a9f286c9dab6b8439cec2dd3f8073ff, type: 2}
+  EquippedBattleItem: {fileID: 0}
 --- !u!212 &1001083280
 SpriteRenderer:
   m_ObjectHideFlags: 0
