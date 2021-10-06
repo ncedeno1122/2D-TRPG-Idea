@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+
 public class TerrainScriptableTile : Tile
 {
     //public Sprite m_Preview;
     public int MovementCost;
+
     public bool IsPassable;
-    
-    // + + + + | Functions | + + + + 
+
+    // + + + + | Functions | + + + +
 
     public override void RefreshTile(Vector3Int location, ITilemap tilemap)
     {
@@ -44,6 +46,7 @@ public class TerrainScriptableTile : Tile
     }
 
 #if UNITY_EDITOR
+
     [MenuItem("Assets/Create/TerrainScriptableTile")]
     public static void CreateTerrainScriptableTile()
     {
@@ -52,5 +55,6 @@ public class TerrainScriptableTile : Tile
             return;
         AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TerrainScriptableTile>(), path);
     }
+
 #endif
 }

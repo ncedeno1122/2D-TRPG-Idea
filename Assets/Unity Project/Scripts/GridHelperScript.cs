@@ -64,7 +64,7 @@ public class GridHelperScript : MonoBehaviour
         if (characterOnTile)
         {
             var charData = characterOnTile.UnitData;
-            var equippedWeapon = characterOnTile.EquippedWeapon;
+            var equippedWeapon = characterOnTile.EquippedBattleItem;
 
             PaintInteractionRange(charData.Prototype.MoveRange, equippedWeapon.Range, characterOnTile.TilePosition);
             //Debug.Log($"Character on Tile is {charData.Name}, a {charData.Allegiance} {charData.Prototype.name}.");

@@ -9,9 +9,9 @@ public class CharacterUnitScript : MonoBehaviour
     public CharacterUnit UnitData;
 
     [SerializeField]
-    public Item[] Inventory = new Item[INVENTORY_SIZE];
+    public IItem[] Inventory = new IItem[INVENTORY_SIZE];
 
-    public DamageItem EquippedWeapon;
+    public BattleItemData EquippedBattleItem;
 
     private const int INVENTORY_SIZE = 5;
     private bool IsMoving;
@@ -39,14 +39,14 @@ public class CharacterUnitScript : MonoBehaviour
         }
 
         // Equip first weapon in inventory if undefined
-        if (!EquippedWeapon)
+        if (!EquippedBattleItem)
         {
             for (int i = 0; i < Inventory.Length - 1; i++)
             {
                 var item = Inventory[i];
-                if (item is DamageItem)
+                if (item is IBattleItem)
                 {
-                    EquippedWeapon = item as DamageItem;
+                    EquippedBattleItem = item as BattleItemData;
                 }
             }
         }
