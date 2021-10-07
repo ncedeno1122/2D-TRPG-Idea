@@ -199,7 +199,7 @@ public class GridHelperScript : MonoBehaviour
         }
     }
 
-    public void PaintInteractionRange(int range, int actionRange, Vector3Int position)
+    private void PaintInteractionRange(int range, int actionRange, Vector3Int position)
     {
         ValidMoveTiles.Clear();
         ValidAttackTiles.Clear();
@@ -246,10 +246,12 @@ public class GridHelperScript : MonoBehaviour
         public GridNode Parent;
         public Vector3Int Position;
         public int f, g, h;
+        public bool IsPassable;
 
-        public GridNode(Vector3Int position)
+        public GridNode(Vector3Int position, bool isPassable)
         {
             Position = position;
+            IsPassable = isPassable;
         }
 
         public override bool Equals(System.Object o)
@@ -280,8 +282,8 @@ public class GridHelperScript : MonoBehaviour
     /// <returns></returns>
     private void FindWalkablePathToTarget(Vector3Int origin, Vector3Int target, ref Queue<Vector3Int> path)
     {
-        GridNode start = new GridNode(origin);
-        GridNode end = new GridNode(target);
+        GridNode start = new GridNode(origin, GetIsPassable(origin));
+        GridNode end = new GridNode(target, GetIsPassable(target));
         List<GridNode> openList = new List<GridNode>();
         List<GridNode> closedList = new List<GridNode>();
         List<GridNode> adjacents;
@@ -295,11 +297,10 @@ public class GridHelperScript : MonoBehaviour
             openList.Remove(current);
             closedList.Add(current);
             adjacents = GetInteractableAdjacents(current);
-            //ActionTilemap.SetTile(current.Position, HealableTile);
 
             foreach (GridNode node in adjacents)
             {
-                if (!closedList.Contains(node))
+                if (!closedList.Contains(node) && node.IsPassable)
                 {
                     if (!openList.Contains(node))
                     {
@@ -307,6 +308,7 @@ public class GridHelperScript : MonoBehaviour
                         node.g = GetManhattanDistance(origin, node.Position);
                         node.h = GetManhattanDistance(node.Position, target);
                         node.f = node.g + node.h;
+                        //node.IsPassable = GetIsPassable(node.Position);
                         openList.Add(node);
                         // Re-sort the openList!
                         openList = openList.OrderBy(listNode => listNode.f).ToList<GridNode>();
@@ -327,48 +329,59 @@ public class GridHelperScript : MonoBehaviour
         if (temp == null) return;
         do
         {
-            path.Enqueue(temp.Position);
-            ActionTilemap.SetTile(temp.Position, HealableTile);
+            //if (ValidMoveTiles.Contains(temp.Position) && !ValidAttackTiles.Contains(temp.Position))
+                path.Enqueue(temp.Position);
+            
             temp = temp.Parent;
         } while (temp != start && temp != null);
 
         Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
     }
-
+    /// <summary>
+    /// Helper function for FindWalkablePathToTarget, finds adjacent, Walkable GridNodes.
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
     private List<GridNode> GetInteractableAdjacents(GridNode node)
     {
         List<Vector3Int> validTiles = new List<Vector3Int>(); // TODO: Consider making this its own data OR referencing one of the lists and adding the other
         validTiles.AddRange(ValidMoveTiles);
         validTiles.AddRange(ValidAttackTiles);
         List<GridNode> adjacents = new List<GridNode>();
-
+        
         //
         Vector3Int upNeighbor = node.Position + Vector3Int.up;
         if (validTiles.Contains(upNeighbor))
         {
-            adjacents.Add(new GridNode(upNeighbor));
+            adjacents.Add(new GridNode(upNeighbor, GetIsPassable(upNeighbor)));
         }
 
         Vector3Int rightNeighbor = node.Position + Vector3Int.right;
         if (validTiles.Contains(rightNeighbor))
         {
-            adjacents.Add(new GridNode(rightNeighbor));
+            adjacents.Add(new GridNode(rightNeighbor, GetIsPassable(rightNeighbor)));
         }
 
         Vector3Int leftNeighbor = node.Position + Vector3Int.left;
         if (validTiles.Contains(leftNeighbor))
         {
-            adjacents.Add(new GridNode(leftNeighbor));
+            adjacents.Add(new GridNode(leftNeighbor, GetIsPassable(leftNeighbor)));
         }
 
         Vector3Int downNeighbor = node.Position + Vector3Int.down;
         if (validTiles.Contains(downNeighbor))
         {
-            adjacents.Add(new GridNode(downNeighbor));
+            adjacents.Add(new GridNode(downNeighbor, GetIsPassable(downNeighbor)));
         }
 
         //
 
         return adjacents;
+    }
+
+    private bool GetIsPassable(Vector3Int tilePosition)
+    {
+        var tileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;
+        return tileData.IsPassable;
     }
 }

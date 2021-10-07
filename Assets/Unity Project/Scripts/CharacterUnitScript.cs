@@ -14,6 +14,7 @@ public class CharacterUnitScript : MonoBehaviour
     public BattleItemData EquippedBattleItem;
 
     private const int INVENTORY_SIZE = 5;
+    private const float MOVEMENT_SPEED = 7.5f;
     private bool IsMoving;
     private bool IsDead;
     private Grid m_Grid; // TODO: Do we even need a reference to the Grid?
@@ -24,9 +25,9 @@ public class CharacterUnitScript : MonoBehaviour
 
         gameObject.name = UnitData.Name;
 
-        // TODO: Should be optional somehow.
-        TilePosition = Vector3Int.FloorToInt(transform.position);
+        // Should be some way to do this in editor...
         transform.position = m_Grid.GetCellCenterWorld(TilePosition);
+        TilePosition = Vector3Int.FloorToInt(transform.position);
     }
 
     private void OnValidate()
@@ -89,7 +90,7 @@ public class CharacterUnitScript : MonoBehaviour
 
             while (transform.position != gridCenterPosition)
             {
-                transform.position = Vector3.MoveTowards(transform.position, m_Grid.GetCellCenterWorld(path), 0.1f);
+                transform.position = Vector3.MoveTowards(transform.position, m_Grid.GetCellCenterWorld(path), MOVEMENT_SPEED * Time.deltaTime);
                 yield return new WaitForSeconds(moveSpeed);
             }
         }
