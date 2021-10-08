@@ -61,7 +61,7 @@ public class CharacterUnitScript : MonoBehaviour
     /// Handles the FollowPathCRT, only allowing movement if not currently moving.
     /// </summary>
     /// <param name="path"></param>
-    public void FollowPath(Queue<Vector3Int> path)
+    public void FollowPath(List<Vector3Int> path)
     {
         Vector3Int[] pathArr = path.ToArray();
 

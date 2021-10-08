@@ -42,7 +42,7 @@ public class GridHelperScript : MonoBehaviour
 
     public Vector3Int SelectedOriginTile, SelectedTargetTile;
     public CharacterUnitScript SelectedCharacterUnit;
-    public Queue<Vector3Int> SelectedTilePath = new Queue<Vector3Int>();
+    public List<Vector3Int> SelectedTilePath = new List<Vector3Int>();
 
     private void OnValidate()
     {
@@ -114,8 +114,14 @@ public class GridHelperScript : MonoBehaviour
                 SelectedTargetTile = tilePosition;
 
                 // TODO: Find Path to Target
-                FindWalkablePathToTarget(SelectedOriginTile, SelectedTargetTile, ref SelectedTilePath);
-                SelectedCharacterUnit.FollowPath(SelectedTilePath);
+                if (FindPathToTarget(SelectedOriginTile, SelectedTargetTile, ref SelectedTilePath))
+                {
+                    EnsureWalkablePath(ref SelectedTilePath);
+                    if (SelectedTilePath.Count > 0)
+                    {
+                        SelectedCharacterUnit.FollowPath(SelectedTilePath);
+                    }
+                }
 
                 // Debug: FUN
                 CurrentState = GridHelperState.NO_TILE_SELECTED;
@@ -280,10 +286,10 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    private void FindWalkablePathToTarget(Vector3Int origin, Vector3Int target, ref Queue<Vector3Int> path)
+    private bool FindPathToTarget(Vector3Int origin, Vector3Int target, ref List<Vector3Int> path)
     {
-        GridNode start = new GridNode(origin, GetIsPassable(origin));
-        GridNode end = new GridNode(target, GetIsPassable(target));
+        GridNode start = new GridNode(origin, true);
+        GridNode end = new GridNode(target, true);
         List<GridNode> openList = new List<GridNode>();
         List<GridNode> closedList = new List<GridNode>();
         List<GridNode> adjacents;
@@ -300,7 +306,7 @@ public class GridHelperScript : MonoBehaviour
 
             foreach (GridNode node in adjacents)
             {
-                if (!closedList.Contains(node) && node.IsPassable)
+                if (!closedList.Contains(node) && (node.IsPassable || node.Position == end.Position)) // Allows selected Tile to be reached if Attackable
                 {
                     if (!openList.Contains(node))
                     {
@@ -308,7 +314,6 @@ public class GridHelperScript : MonoBehaviour
                         node.g = GetManhattanDistance(origin, node.Position);
                         node.h = GetManhattanDistance(node.Position, target);
                         node.f = node.g + node.h;
-                        //node.IsPassable = GetIsPassable(node.Position);
                         openList.Add(node);
                         // Re-sort the openList!
                         openList = openList.OrderBy(listNode => listNode.f).ToList<GridNode>();
@@ -321,21 +326,21 @@ public class GridHelperScript : MonoBehaviour
         if (!closedList.Exists(x => x.Position == end.Position))
         {
             Debug.Log("No path found!");
-            return;
+            return false;
         }
 
         // Otherwise, assemble and return the path!
         GridNode temp = closedList[closedList.IndexOf(current)];
-        if (temp == null) return;
+        if (temp == null) return false;
         do
         {
-            //if (ValidMoveTiles.Contains(temp.Position) && !ValidAttackTiles.Contains(temp.Position))
-            path.Enqueue(temp.Position);
+            path.Add(temp.Position);
 
             temp = temp.Parent;
         } while (temp != start && temp != null);
 
         Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
+        return true;
     }
 
     /// <summary>
@@ -383,6 +388,22 @@ public class GridHelperScript : MonoBehaviour
     private bool GetIsPassable(Vector3Int tilePosition)
     {
         var tileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;
-        return tileData.IsPassable;
+        if (tileData)
+        {
+            return tileData.IsPassable;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Validates and ensures that the given path is Walkable and doesn't contain any Attackable tiles.
+    /// </summary>
+    /// <param name="path"></param>
+    private void EnsureWalkablePath(ref List<Vector3Int> path)
+    {
+        path.RemoveAll(x => !ValidMoveTiles.Contains(x) && ValidAttackTiles.Contains(x)); // ONLY remove the path indices that are solely attackable.
     }
 }
