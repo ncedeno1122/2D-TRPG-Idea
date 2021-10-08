@@ -14,14 +14,16 @@ public class CharacterUnitScript : MonoBehaviour
     public BattleItemData EquippedBattleItem;
 
     private const int INVENTORY_SIZE = 5;
-    private const float MOVEMENT_SPEED = 7.5f;
+    private const float MOVEMENT_SPEED = 25f;
     private bool IsMoving;
     private bool IsDead;
     private Grid m_Grid; // TODO: Do we even need a reference to the Grid?
+    private Animator m_Animator;
 
     private void Start()
     {
         m_Grid = transform.parent.parent.GetComponent<Grid>();
+        m_Animator = GetComponent<Animator>();
 
         gameObject.name = UnitData.Name;
 
@@ -81,12 +83,18 @@ public class CharacterUnitScript : MonoBehaviour
         Vector3 gridCenterPosition;
 
         IsMoving = true;
+        m_Animator.SetBool("IsMoving", true);
 
         // For loops make me kinda scared in this instance...
         for (int i = pathArr.Length - 1; i >= 0; i--)
         {
             var path = pathArr[i];
             gridCenterPosition = m_Grid.GetCellCenterWorld(path);
+
+            // Animator: Run in the direction the next cell is
+            var difference = Vector3Int.CeilToInt(gridCenterPosition - transform.position);
+            m_Animator.SetInteger("HorizontalMoveDirection", difference.x);
+            m_Animator.SetInteger("VerticalMoveDirection", difference.y);
 
             while (transform.position != gridCenterPosition)
             {
@@ -97,6 +105,9 @@ public class CharacterUnitScript : MonoBehaviour
 
         // When finished,
         IsMoving = false;
+        m_Animator.SetInteger("HorizontalMoveDirection", 0);
+        m_Animator.SetInteger("VerticalMoveDirection", 0);
+        m_Animator.SetBool("IsMoving", false);
         TilePosition = Vector3Int.FloorToInt(pathArr[0]);
     }
 }

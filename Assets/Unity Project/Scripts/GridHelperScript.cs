@@ -330,13 +330,14 @@ public class GridHelperScript : MonoBehaviour
         do
         {
             //if (ValidMoveTiles.Contains(temp.Position) && !ValidAttackTiles.Contains(temp.Position))
-                path.Enqueue(temp.Position);
-            
+            path.Enqueue(temp.Position);
+
             temp = temp.Parent;
         } while (temp != start && temp != null);
 
         Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
     }
+
     /// <summary>
     /// Helper function for FindWalkablePathToTarget, finds adjacent, Walkable GridNodes.
     /// </summary>
@@ -348,7 +349,7 @@ public class GridHelperScript : MonoBehaviour
         validTiles.AddRange(ValidMoveTiles);
         validTiles.AddRange(ValidAttackTiles);
         List<GridNode> adjacents = new List<GridNode>();
-        
+
         //
         Vector3Int upNeighbor = node.Position + Vector3Int.up;
         if (validTiles.Contains(upNeighbor))
