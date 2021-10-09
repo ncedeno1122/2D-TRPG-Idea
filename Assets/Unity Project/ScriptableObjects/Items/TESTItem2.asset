@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f35c5edd9f8c9d44a9fe9103e2aa1268, type: 3}
-  m_Name: TESTPercentageHeal
+  m_Script: {fileID: 11500000, guid: a2ea2da166e0c3a48a41ecd065bf57eb, type: 3}
+  m_Name: TESTItem2
   m_EditorClassIdentifier: 
-  m_BattleItemType: 6
-  m_Range: 2
-  m_ItemName: TESTPercentageHeal
-  m_Price: 250
+  m_ItemName: TESTItem2
+  m_ID: 2
+  m_Price: 75
   m_UsesTotal: 10
   m_UsesLeft: 10
-  m_ID: 2
   m_Icon: {fileID: 0}
-  m_PercentageHealing: 0.4

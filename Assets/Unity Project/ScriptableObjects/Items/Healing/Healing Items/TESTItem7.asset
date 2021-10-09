@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2ea2da166e0c3a48a41ecd065bf57eb, type: 3}
-  m_Name: Gold
+  m_Script: {fileID: 11500000, guid: edf1b7bd8dd47e7419ccec4606c83236, type: 3}
+  m_Name: TESTItem7
   m_EditorClassIdentifier: 
-  m_ItemName: 
-  m_ID: 0
-  m_Price: 0
-  m_UsesTotal: 0
-  m_UsesLeft: 0
+  m_ItemName: TESTItem7
+  m_ID: 7
+  m_Price: 10
+  m_UsesTotal: 1
+  m_UsesLeft: 1
   m_Icon: {fileID: 0}
+  m_HealingAmount: 15

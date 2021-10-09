@@ -9,13 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf1b7bd8dd47e7419ccec4606c83236, type: 3}
-  m_Name: TESTConcreteHealItem
+  m_Script: {fileID: 11500000, guid: 335cee29ee724194cb451d525dfbdb7d, type: 3}
+  m_Name: TESTItem5
   m_EditorClassIdentifier: 
-  m_ItemName: TESTConcreteHealItem
-  m_ID: 0
-  m_Price: 150
-  m_UsesTotal: 3
-  m_UsesLeft: 3
+  m_BattleItemType: 6
+  m_Range: 2
+  m_ItemName: TESTItem5
+  m_Price: 100
+  m_UsesTotal: 10
+  m_UsesLeft: 10
+  m_ID: 5
   m_Icon: {fileID: 0}
-  m_HealingAmount: 10
+  m_DamageType: 2
+  m_WeaponElement: 2
+  m_BaseDamageAmount: 10
+  m_Accuracy: 0.85

@@ -9,18 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 335cee29ee724194cb451d525dfbdb7d, type: 3}
-  m_Name: TESTWeapon1
+  m_Script: {fileID: 11500000, guid: e896b60d4fda7f94f8b0f6cd81113aa8, type: 3}
+  m_Name: TESTItem8
   m_EditorClassIdentifier: 
-  m_BattleItemType: 2
-  m_Range: 1
-  m_ItemName: TESTSword
-  m_Price: 250
-  m_UsesTotal: 45
-  m_UsesLeft: 45
-  m_ID: 0
+  m_ItemName: TESTItem8
+  m_ID: 8
+  m_Price: 1000
+  m_UsesTotal: 2
+  m_UsesLeft: 2
   m_Icon: {fileID: 0}
-  m_DamageType: 1
-  m_WeaponElement: 1
-  m_BaseDamageAmount: 8
-  m_Accuracy: 0.95
+  m_PercentageHealing: 0.3
