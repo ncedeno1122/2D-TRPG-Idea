@@ -14,7 +14,7 @@ public class CharacterUnitScript : MonoBehaviour
     public BattleItemData EquippedBattleItem;
 
     private const int INVENTORY_SIZE = 5;
-    private const float MOVEMENT_SPEED = 25f;
+    private const float MOVEMENT_SPEED = 15f;
     private bool IsMoving;
     private bool IsDead;
     private Grid m_Grid; // TODO: Do we even need a reference to the Grid?

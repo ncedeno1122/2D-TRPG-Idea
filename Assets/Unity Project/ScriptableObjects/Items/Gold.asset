@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 931ac67e0279b9f4c8c908ce9708ffed, type: 3}
-  m_Name: Warrior
+  m_Script: {fileID: 11500000, guid: a2ea2da166e0c3a48a41ecd065bf57eb, type: 3}
+  m_Name: Gold
   m_EditorClassIdentifier: 
-  UnitType: 0
-  Level: 1
-  MaxHP: 14
-  PhysicalAttack: 8
-  MagicalAttack: 1
-  PhysicalDefense: 6
-  MagicalDefense: 2
-  MoveRange: 5
+  m_ItemName: 
+  m_ID: 0
+  m_Price: 0
+  m_UsesTotal: 0
+  m_UsesLeft: 0
+  m_Icon: {fileID: 0}

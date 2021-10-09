@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +77,7 @@ public class GridHelperScript : MonoBehaviour
         // CharacterUnit info
         var characterOnTile = GetCharacterOnTile(tilePosition);
 
-        Debug.Log($"Current Selection State is {CurrentState}!");
+        //Debug.Log($"Current Selection State is {CurrentState}!");
         switch (CurrentState)
         {
             // If we haven't selected any Tiles yet,
@@ -94,7 +94,7 @@ public class GridHelperScript : MonoBehaviour
                     SelectedCharacterUnit = characterOnTile;
 
                     // Paint Interaction Range, which defines legal SelectedTargetTile candidates!
-                    Debug.Log($"Found character {charData.Name} on SelectedOriginTile {SelectedOriginTile}! Painting Interaction Range.");
+                    //Debug.Log($"Found character {charData.Name} on SelectedOriginTile {SelectedOriginTile}! Painting Interaction Range.");
 
                     PaintInteractionRange(charData.Prototype.MoveRange, equippedBattleItemRange, characterOnTile.TilePosition);
                 }
@@ -103,7 +103,7 @@ public class GridHelperScript : MonoBehaviour
             case GridHelperState.FIRST_TILE_SELECTED:
                 if (!ValidMoveTiles.Contains(tilePosition) && !ValidAttackTiles.Contains(tilePosition))
                 {
-                    Debug.Log($"Second selection {tilePosition} is not in the interaction range. Exiting Selection mode.");
+                    //Debug.Log($"Second selection {tilePosition} is not in the interaction range. Exiting Selection mode.");
                     // If we click outside the range, clear it all out
                     CurrentState = GridHelperState.NO_TILE_SELECTED;
                     ClearSelectedTiles();
@@ -325,7 +325,7 @@ public class GridHelperScript : MonoBehaviour
         // If there's no path, return null...
         if (!closedList.Exists(x => x.Position == end.Position))
         {
-            Debug.Log("No path found!");
+            //Debug.Log("No path found!");
             return false;
         }
 
@@ -339,7 +339,7 @@ public class GridHelperScript : MonoBehaviour
             temp = temp.Parent;
         } while (temp != start && temp != null);
 
-        Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
+        //Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
         return true;
     }
 
