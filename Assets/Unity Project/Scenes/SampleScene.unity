@@ -705,7 +705,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 947893398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b3ce68db660ca4bb4cf91f87ea5203, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fbeb2caf39114df1bd5af0e899e4541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BattleTilemap: {fileID: 1349842583}
@@ -770,7 +770,7 @@ MonoBehaviour:
   CurrentHP: 0
   TilePosition: {x: 0, y: 0, z: 0}
   UnitData: {fileID: 11400000, guid: 6ba9246a8e03bad4d94ca58affc2d569, type: 2}
-  EquippedBattleItem: {fileID: 11400000, guid: 3ba0efb407d6e1f49aa9f6f95e325144, type: 2}
+  EquippedBattleItem: {fileID: 0}
 --- !u!212 &1001083280
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -15,6 +15,17 @@ public enum GridHelperState
     SECOND_TILE_SELECTED = 2,
 }
 
+public enum TileAction
+{
+    NONE = 0,
+    ATTACK = 1,
+    HEAL = 2,
+    INTERACT = 3,
+    TALK = 4,
+    CHEST = 5,
+    // TODO: Specify more actions to be done on Tiles
+}
+
 public class GridHelperScript : MonoBehaviour
 {
     [Header("Tilemaps and Entities")]
@@ -33,7 +44,7 @@ public class GridHelperScript : MonoBehaviour
     [Header("Other Information")]
     private List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
 
-    private List<Vector3Int> ValidAttackTiles = new List<Vector3Int>();
+    private List<Vector3Int> ValidActionableTiles = new List<Vector3Int>();
 
     [SerializeField]
     private List<CharacterUnitScript> CharacterUnits;
@@ -69,6 +80,10 @@ public class GridHelperScript : MonoBehaviour
         HandleSelectTile(tilePosition);
     }
 
+    /// <summary>
+    /// Uses GridHelperScript's current state to perform selection-related actions.
+    /// </summary>
+    /// <param name="tilePosition"></param>
     public void HandleSelectTile(Vector3Int tilePosition)
     {
         // Tile info
@@ -96,24 +111,30 @@ public class GridHelperScript : MonoBehaviour
                     // Paint Interaction Range, which defines legal SelectedTargetTile candidates!
                     //Debug.Log($"Found character {charData.Name} on SelectedOriginTile {SelectedOriginTile}! Painting Interaction Range.");
 
-                    PaintInteractionRange(charData.Prototype.MoveRange, equippedBattleItemRange, characterOnTile.TilePosition);
+                    TileAction desiredAction = TileAction.NONE;
+                    if (equippedBattleItem)
+                    {
+                        desiredAction = equippedBattleItem is IWeapon ? TileAction.ATTACK : TileAction.HEAL;
+                    }
+
+                    PaintInteractionRange(charData.Prototype.MoveRange, equippedBattleItemRange, characterOnTile.TilePosition, desiredAction);
                 }
                 break;
 
             case GridHelperState.FIRST_TILE_SELECTED:
-                if (!ValidMoveTiles.Contains(tilePosition) && !ValidAttackTiles.Contains(tilePosition))
+                if (!ValidMoveTiles.Contains(tilePosition) && !ValidActionableTiles.Contains(tilePosition))
                 {
                     //Debug.Log($"Second selection {tilePosition} is not in the interaction range. Exiting Selection mode.");
                     // If we click outside the range, clear it all out
                     CurrentState = GridHelperState.NO_TILE_SELECTED;
-                    ClearSelectedTiles();
+                    ClearFoundTilePath();
                     ClearInteractionRange();
                     return;
                 }
                 CurrentState = GridHelperState.SECOND_TILE_SELECTED; // Redundant if unreachable?
                 SelectedTargetTile = tilePosition;
 
-                // TODO: Find Path to Target
+                // Find Path to Target
                 if (FindPathToTarget(SelectedOriginTile, SelectedTargetTile, ref SelectedTilePath))
                 {
                     EnsureWalkablePath(ref SelectedTilePath);
@@ -125,7 +146,7 @@ public class GridHelperScript : MonoBehaviour
 
                 // Debug: FUN
                 CurrentState = GridHelperState.NO_TILE_SELECTED;
-                ClearSelectedTiles();
+                ClearFoundTilePath();
                 ClearInteractionRange();
 
                 // TODO: Pull up context UI and all that.
@@ -136,7 +157,10 @@ public class GridHelperScript : MonoBehaviour
         }
     }
 
-    private void ClearSelectedTiles()
+    /// <summary>
+    /// Clears the A*-found path of Tiles to a particular point.
+    /// </summary>
+    private void ClearFoundTilePath()
     {
         // Clear selected Tiles
         SelectedOriginTile = Vector3Int.zero;
@@ -144,6 +168,9 @@ public class GridHelperScript : MonoBehaviour
         SelectedTilePath.Clear();
     }
 
+    /// <summary>
+    /// Clears the ActionTilemap, wiping the entire interaction range.
+    /// </summary>
     private void ClearInteractionRange()
     {
         ActionTilemap.ClearAllTiles();
@@ -185,7 +212,7 @@ public class GridHelperScript : MonoBehaviour
     /// Finds the Action range for a defined list of ValidMoveTiles
     /// </summary>
     /// <param name="actionRange"></param>
-    private void GetActionRange(int actionRange)
+    private void GetActionableRange(int actionRange)
     {
         foreach (Vector3Int position in ValidMoveTiles)
         {
@@ -195,38 +222,89 @@ public class GridHelperScript : MonoBehaviour
                 {
                     var currTilePosition = new Vector3Int(x, y, 0);
                     if (GetManhattanDistance(position, currTilePosition) > actionRange) continue;
-                    if (!ValidAttackTiles.Contains(currTilePosition) &&
-                        !ValidMoveTiles.Contains(currTilePosition))
-                    {
-                        ValidAttackTiles.Add(currTilePosition);
-                    }
+
+                    if (!ValidActionableTiles.Contains(currTilePosition) &&
+                            !ValidMoveTiles.Contains(currTilePosition))
+                        {
+                            ValidActionableTiles.Add(currTilePosition);
+                        }
                 }
             }
         }
     }
 
-    private void PaintInteractionRange(int range, int actionRange, Vector3Int position)
+    /// <summary>
+    /// Clears the current InteractionRange and paints a new one based on CharacterUnit parameters.
+    /// </summary>
+    /// <param name="range"></param>
+    /// <param name="actionRange"></param>
+    /// <param name="position"></param>
+    /// <param name="equippedItem"></param>
+    private void PaintInteractionRange(int range, int actionRange, Vector3Int position, TileAction desiredAction)
     {
+        // TODO: Refactor this... it feels inefficient. KEEP primitives for ease of testing!
+
+        // Clear all Lists of previously painted ranges
         ValidMoveTiles.Clear();
-        ValidAttackTiles.Clear();
+        ValidActionableTiles.Clear();
         ActionTilemap.ClearAllTiles();
 
+        // Get each range
         RecursivelyGetMoveRange(position, range);
-        GetActionRange(actionRange);
+        GetActionableRange(actionRange);
 
+        // Get type of tile to use for the Equipped Item
+        Tile tileToUse = GetActionableTileForTileAction(desiredAction);
+
+        // Paint the ranges
         foreach (Vector3Int tilePosition in ValidMoveTiles)
         {
             ActionTilemap.SetTile(tilePosition, WalkableTile);
         }
 
-        foreach (Vector3Int tilePosition in ValidAttackTiles)
+        foreach (Vector3Int tilePosition in ValidActionableTiles)
         {
-            ActionTilemap.SetTile(tilePosition, AttackableTile);
+            ActionTilemap.SetTile(tilePosition, tileToUse);
         }
 
         ActionTilemap.SetTile(position, OriginTile);
     }
 
+    /// <summary>
+    /// Returns a Tile for a specific TileAction 'ta'
+    /// </summary>
+    /// <param name="ta"></param>
+    /// <returns></returns>
+    private Tile GetActionableTileForTileAction(TileAction ta)
+    {
+
+        switch (ta)
+        {
+            case TileAction.NONE:
+                //return NoneableTile;
+            case TileAction.ATTACK:
+                return AttackableTile;
+            case TileAction.HEAL:
+                return HealableTile;
+            //case TileAction.INTERACT:
+            //    return InteractableTile;
+            //    break;
+            //case TileAction.TALK:
+            //    return TalkableTile;
+            //    break;
+            //case TileAction.CHEST:
+            //    return ChestableTile; LOL Chest-able
+            //    break;
+            default:
+                return OriginTile;
+        }
+    }
+
+    /// <summary>
+    /// Tries to find if a CharacterUnitScript is on a give tilePosition
+    /// </summary>
+    /// <param name="tilePosition"></param>
+    /// <returns></returns>
     private CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
     {
         foreach (CharacterUnitScript cus in CharacterUnits)
@@ -352,7 +430,7 @@ public class GridHelperScript : MonoBehaviour
     {
         List<Vector3Int> validTiles = new List<Vector3Int>(); // TODO: Consider making this its own data OR referencing one of the lists and adding the other
         validTiles.AddRange(ValidMoveTiles);
-        validTiles.AddRange(ValidAttackTiles);
+        validTiles.AddRange(ValidActionableTiles);
         List<GridNode> adjacents = new List<GridNode>();
 
         //
@@ -404,6 +482,6 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="path"></param>
     private void EnsureWalkablePath(ref List<Vector3Int> path)
     {
-        path.RemoveAll(x => !ValidMoveTiles.Contains(x) && ValidAttackTiles.Contains(x)); // ONLY remove the path indices that are solely attackable.
+        path.RemoveAll(x => !ValidMoveTiles.Contains(x) && ValidActionableTiles.Contains(x)); // ONLY remove the path indices that are solely attackable.
     }
 }
