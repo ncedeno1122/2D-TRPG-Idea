@@ -1,0 +1,106 @@
+{
+  "main": {
+    "id": "aa993f99b5ebe800",
+    "type": "split",
+    "children": [
+      {
+        "id": "7093d68cbb2f86ea",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "10-21 Next Steps.md",
+            "mode": "source"
+          }
+        },
+        "group": "4afb068e451797e4"
+      },
+      {
+        "id": "20d63b80f2073395",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "10-21 Next Steps.md",
+            "mode": "preview"
+          }
+        },
+        "group": "4afb068e451797e4"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a25ca8b02ff009af",
+    "type": "split",
+    "children": [
+      {
+        "id": "2d194f13e01cb021",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6d6c14ba6b0b64d7",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "f9be9bbd73a463c9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "eba2b12dcf39077c",
+    "type": "split",
+    "children": [
+      {
+        "id": "268226cd8faafc69",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "094bdeb4fe023641",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "10-21 Next Steps.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "7093d68cbb2f86ea",
+  "lastOpenFiles": [
+    "10-21 Next Steps.md"
+  ]
+}
