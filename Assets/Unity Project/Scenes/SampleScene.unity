@@ -770,7 +770,7 @@ MonoBehaviour:
   CurrentHP: 0
   TilePosition: {x: 0, y: 0, z: 0}
   UnitData: {fileID: 11400000, guid: 6ba9246a8e03bad4d94ca58affc2d569, type: 2}
-  EquippedBattleItem: {fileID: 0}
+  EquippedBattleItem: {fileID: 11400000, guid: 984529a5299414d2fb81686045eeada7, type: 2}
 --- !u!212 &1001083280
 SpriteRenderer:
   m_ObjectHideFlags: 0

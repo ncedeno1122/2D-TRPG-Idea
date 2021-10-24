@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "10-21 Next Steps.md",
+            "file": "10-23 Next Steps.md",
             "mode": "source"
           }
         },
@@ -21,7 +21,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "10-21 Next Steps.md",
+            "file": "10-23 Next Steps.md",
             "mode": "preview"
           }
         },
@@ -72,16 +72,16 @@
     "type": "split",
     "children": [
       {
-        "id": "268226cd8faafc69",
+        "id": "6bfe2bf99a0874eb",
         "type": "tabs",
         "children": [
           {
-            "id": "094bdeb4fe023641",
+            "id": "94868eab5f3f02cb",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "10-21 Next Steps.md",
+                "file": "10-23 Next Steps.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,6 +101,7 @@
   },
   "active": "7093d68cbb2f86ea",
   "lastOpenFiles": [
+    "10-23 Next Steps.md",
     "10-21 Next Steps.md"
   ]
 }

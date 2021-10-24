@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -242,7 +242,7 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="equippedItem"></param>
     private void PaintInteractionRange(int range, int actionRange, Vector3Int position, TileAction desiredAction)
     {
-        // TODO: Refactor this... it feels inefficient. KEEP primitives for ease of testing!
+        // TODO: Refactor this... it feels inefficient. KEEP primitive arguments for ease of testing!
 
         // Clear all Lists of previously painted ranges
         ValidMoveTiles.Clear();
