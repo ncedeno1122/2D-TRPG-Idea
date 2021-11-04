@@ -57,6 +57,13 @@
               </e>
             </e>
             <e p="SoundtrackPlayerScript.cs" t="Include" />
+            <e p="TileSelectionLogic" t="Include">
+              <e p="ActionPromptState.cs" t="Include" />
+              <e p="CharacterSelectionState.cs" t="Include" />
+              <e p="TargetSelectionState.cs" t="Include" />
+              <e p="TileSelectionManager.cs" t="Include" />
+              <e p="TileSelectionState.cs" t="Include" />
+            </e>
             <e p="UIScripts" t="Include">
               <e p="ActionPrompt" t="Include">
                 <e p="ActionPromptScript.cs" t="Include" />

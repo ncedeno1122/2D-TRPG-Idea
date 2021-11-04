@@ -288,7 +288,7 @@ public class GridHelperScript : MonoBehaviour
     /// </summary>
     /// <param name="tilePosition"></param>
     /// <returns></returns>
-    private CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
+    public CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
     {
         foreach (CharacterUnitScript cus in CharacterUnits)
         {
