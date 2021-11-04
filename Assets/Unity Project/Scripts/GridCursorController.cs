@@ -42,20 +42,20 @@ public class GridCursorController : MonoBehaviour
 
         if (mousePosition.x < m_CameraMoveDeadzone)
         {
-            m_mainCamera.transform.Translate(Vector3.left * m_CameraMoveSpeed * Time.deltaTime);
+            m_mainCamera.transform.Translate(Vector3.left * (m_CameraMoveSpeed * Time.deltaTime));
         }
         else if (mousePosition.x > m_ScreenWidth - m_CameraMoveDeadzone)
         {
-            m_mainCamera.transform.Translate(Vector3.right * m_CameraMoveSpeed * Time.deltaTime);
+            m_mainCamera.transform.Translate(Vector3.right * (m_CameraMoveSpeed * Time.deltaTime));
         }
 
         if (mousePosition.y < m_CameraMoveDeadzone)
         {
-            m_mainCamera.transform.Translate(Vector3.down * m_CameraMoveSpeed * Time.deltaTime);
+            m_mainCamera.transform.Translate(Vector3.down * (m_CameraMoveSpeed * Time.deltaTime));
         }
         else if (mousePosition.y > m_ScreenHeight - m_CameraMoveDeadzone)
         {
-            m_mainCamera.transform.Translate(Vector3.up * m_CameraMoveSpeed * Time.deltaTime);
+            m_mainCamera.transform.Translate(Vector3.up * (m_CameraMoveSpeed * Time.deltaTime));
         }
 
         // Zoom Logic

@@ -15,7 +15,7 @@ public class CharacterUnitScript : MonoBehaviour
 
     private const int INVENTORY_SIZE = 5;
     private const float MOVEMENT_SPEED = 15f;
-    private bool IsMoving;
+    private bool m_isMoving;
     private bool IsDead;
     private Grid m_Grid; // TODO: Do we even need a reference to the Grid?
     private Animator m_Animator;
@@ -65,7 +65,7 @@ public class CharacterUnitScript : MonoBehaviour
     {
         Vector3Int[] pathArr = path.ToArray();
 
-        if (!IsMoving)
+        if (!m_isMoving)
         {
             var followPathCRT = FollowPathCRT(pathArr);
             StartCoroutine(followPathCRT);
@@ -82,7 +82,7 @@ public class CharacterUnitScript : MonoBehaviour
         float moveSpeed = 0.0175f; // Oroginal value: 0.0125f
         Vector3 gridCenterPosition;
 
-        IsMoving = true;
+        m_isMoving = true;
         m_Animator.SetBool("IsMoving", true);
 
         // For loops make me kinda scared in this instance...
@@ -104,10 +104,10 @@ public class CharacterUnitScript : MonoBehaviour
         }
 
         // When finished,
-        IsMoving = false;
+        m_isMoving = false;
         m_Animator.SetInteger("HorizontalMoveDirection", 0);
         m_Animator.SetInteger("VerticalMoveDirection", 0);
         m_Animator.SetBool("IsMoving", false);
-        TilePosition = Vector3Int.FloorToInt(pathArr[0]);
+        //TilePosition = Vector3Int.FloorToInt(pathArr[0]); Position is committed when the TileActionCommand is confirmed.
     }
 }

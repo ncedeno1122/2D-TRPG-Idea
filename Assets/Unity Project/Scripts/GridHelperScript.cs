@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using UnityEditorInternal;
+using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.Tilemaps;
 
 public enum GridHelperState
@@ -13,17 +11,6 @@ public enum GridHelperState
     NO_TILE_SELECTED = 0,
     FIRST_TILE_SELECTED = 1,
     SECOND_TILE_SELECTED = 2,
-}
-
-public enum TileAction
-{
-    NONE = 0,
-    ATTACK = 1,
-    HEAL = 2,
-    INTERACT = 3,
-    TALK = 4,
-    CHEST = 5,
-    // TODO: Specify more actions to be done on Tiles
 }
 
 public class GridHelperScript : MonoBehaviour
@@ -84,7 +71,7 @@ public class GridHelperScript : MonoBehaviour
     /// Uses GridHelperScript's current state to perform selection-related actions.
     /// </summary>
     /// <param name="tilePosition"></param>
-    public void HandleSelectTile(Vector3Int tilePosition)
+    private void HandleSelectTile(Vector3Int tilePosition)
     {
         // Tile info
         var currTileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;
@@ -111,10 +98,10 @@ public class GridHelperScript : MonoBehaviour
                     // Paint Interaction Range, which defines legal SelectedTargetTile candidates!
                     //Debug.Log($"Found character {charData.Name} on SelectedOriginTile {SelectedOriginTile}! Painting Interaction Range.");
 
-                    TileAction desiredAction = TileAction.NONE;
+                    TurnAction desiredAction = TurnAction.WAIT;
                     if (equippedBattleItem)
                     {
-                        desiredAction = equippedBattleItem is IWeapon ? TileAction.ATTACK : TileAction.HEAL;
+                        desiredAction = equippedBattleItem is IWeapon ? TurnAction.ATTACK : TurnAction.HEAL;
                     }
 
                     PaintInteractionRange(charData.Prototype.MoveRange, equippedBattleItemRange, characterOnTile.TilePosition, desiredAction);
@@ -188,23 +175,19 @@ public class GridHelperScript : MonoBehaviour
         {
             var currTile = BattleTilemap.GetTile(positionToCheck) as TerrainScriptableTile;
 
-            if (currTile)
+            if (currTile) return;
+            // Is the tile passable?
+            if (currTile is { } && !currTile.IsPassable) return;
+            if (!ValidMoveTiles.Contains(positionToCheck))
             {
-                // Is the tile passable?
-                if (currTile.IsPassable)
-                {
-                    if (!ValidMoveTiles.Contains(positionToCheck))
-                    {
-                        ValidMoveTiles.Add(positionToCheck);
-                    }
-
-                    // Recurse!
-                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.up, moveRange - 1 + currTile.MovementCost);
-                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.right, moveRange - 1 + currTile.MovementCost);
-                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.left, moveRange - 1 + currTile.MovementCost);
-                    RecursivelyGetMoveRange(positionToCheck + Vector3Int.down, moveRange - 1 + currTile.MovementCost);
-                }
+                ValidMoveTiles.Add(positionToCheck);
             }
+
+            // Recurse!
+            RecursivelyGetMoveRange(positionToCheck + Vector3Int.up, moveRange - 1 + currTile.MovementCost);
+            RecursivelyGetMoveRange(positionToCheck + Vector3Int.right, moveRange - 1 + currTile.MovementCost);
+            RecursivelyGetMoveRange(positionToCheck + Vector3Int.left, moveRange - 1 + currTile.MovementCost);
+            RecursivelyGetMoveRange(positionToCheck + Vector3Int.down, moveRange - 1 + currTile.MovementCost);
         }
     }
 
@@ -239,8 +222,8 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="range"></param>
     /// <param name="actionRange"></param>
     /// <param name="position"></param>
-    /// <param name="equippedItem"></param>
-    private void PaintInteractionRange(int range, int actionRange, Vector3Int position, TileAction desiredAction)
+    /// <param name="desiredAction"></param>
+    private void PaintInteractionRange(int range, int actionRange, Vector3Int position, TurnAction desiredAction)
     {
         // TODO: Refactor this... it feels inefficient. KEEP primitive arguments for ease of testing!
 
@@ -275,16 +258,16 @@ public class GridHelperScript : MonoBehaviour
     /// </summary>
     /// <param name="ta"></param>
     /// <returns></returns>
-    private Tile GetActionableTileForTileAction(TileAction ta)
+    private Tile GetActionableTileForTileAction(TurnAction ta)
     {
 
         switch (ta)
         {
-            case TileAction.NONE:
+            case TurnAction.WAIT:
                 //return NoneableTile;
-            case TileAction.ATTACK:
+            case TurnAction.ATTACK:
                 return AttackableTile;
-            case TileAction.HEAL:
+            case TurnAction.HEAL:
                 return HealableTile;
             //case TileAction.INTERACT:
             //    return InteractableTile;
@@ -338,18 +321,15 @@ public class GridHelperScript : MonoBehaviour
             IsPassable = isPassable;
         }
 
-        public override bool Equals(System.Object o)
+        public override bool Equals(object o)
         {
             if (o == null) return false;
-            GridNode other = o as GridNode;
-            if (other == null) return false;
-            else return Equals(other);
+            return o is GridNode other && Equals(other);
         }
 
         public bool Equals(GridNode other)
         {
-            if (other == null) return false;
-            return (this.Position.Equals(other.Position));
+            return other != null && this.Position.Equals(other.Position);
         }
 
         public override int GetHashCode()

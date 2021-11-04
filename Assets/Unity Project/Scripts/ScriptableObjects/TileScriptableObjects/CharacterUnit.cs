@@ -8,8 +8,8 @@ using UnityEngine;
 public enum Allegiance
 {
     PLAYER = 1,
-    ALLY = 2,
-    ENEMY = 3,
+    ENEMY = 2,
+    ALLY = 3,
     //NEUTRAL=4
 }
 

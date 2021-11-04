@@ -9,10 +9,58 @@
       <e p="Assets" t="Include">
         <e p="Unity Project" t="Include">
           <e p="Scripts" t="Include">
+            <e p="AudioManager.cs" t="Include" />
+            <e p="BattleDataScripts" t="Include">
+              <e p="BattleDataManager.cs" t="Include" />
+              <e p="PhaseData.cs" t="Include" />
+              <e p="TurnAction.cs" t="Include" />
+              <e p="TurnActionCommand.cs" t="Include" />
+              <e p="TurnData.cs" t="Include" />
+              <e p="WaitCommand.cs" t="Include" />
+            </e>
+            <e p="CharacterUnitScript.cs" t="Include" />
+            <e p="CustomEditor" t="Include">
+              <e p="ItemDataBuilder.cs" t="Include" />
+              <e p="ItemDataEditor.cs" t="Include" />
+            </e>
             <e p="GridCursorController.cs" t="Include" />
             <e p="GridHelperScript.cs" t="Include" />
-            <e p="ScriptableTiles" t="Include">
-              <e p="TerrainScriptableTile.cs" t="Include" />
+            <e p="ScriptableObjects" t="Include">
+              <e p="Items" t="Include">
+                <e p="BattleItemData.cs" t="Include" />
+                <e p="ConcreteBattleHealingData.cs" t="Include" />
+                <e p="ConcreteHealingItemData.cs" t="Include" />
+                <e p="Enums" t="Include">
+                  <e p="BattleItemType.cs" t="Include" />
+                  <e p="DamageType.cs" t="Include" />
+                  <e p="WeaponElement.cs" t="Include" />
+                </e>
+                <e p="Interfaces" t="Include">
+                  <e p="IBattleItem.cs" t="Include" />
+                  <e p="IConcreteHealing.cs" t="Include" />
+                  <e p="IItem.cs" t="Include" />
+                  <e p="IPercentageHealing.cs" t="Include" />
+                  <e p="IPrototypable.cs" t="Include" />
+                  <e p="IWeapon.cs" t="Include" />
+                </e>
+                <e p="ItemData.cs" t="Include" />
+                <e p="PercentageBattleHealingData.cs" t="Include" />
+                <e p="PercentageHealingItemData.cs" t="Include" />
+                <e p="WeaponData.cs" t="Include" />
+              </e>
+              <e p="ScriptableTiles" t="Include">
+                <e p="TerrainScriptableTile.cs" t="Include" />
+              </e>
+              <e p="TileScriptableObjects" t="Include">
+                <e p="CharacterUnit.cs" t="Include" />
+                <e p="TileUnit.cs" t="Include" />
+              </e>
+            </e>
+            <e p="SoundtrackPlayerScript.cs" t="Include" />
+            <e p="UIScripts" t="Include">
+              <e p="ActionPrompt" t="Include">
+                <e p="ActionPromptScript.cs" t="Include" />
+              </e>
             </e>
           </e>
         </e>

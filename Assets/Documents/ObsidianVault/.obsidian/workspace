@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "10-23 Next Steps.md",
+            "file": "11-3 Subclass Sandbox Notes.md",
             "mode": "source"
           }
         },
@@ -21,7 +21,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "10-23 Next Steps.md",
+            "file": "11-3 Subclass Sandbox Notes.md",
             "mode": "preview"
           }
         },
@@ -81,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "10-23 Next Steps.md",
+                "file": "11-3 Subclass Sandbox Notes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,7 +101,10 @@
   },
   "active": "7093d68cbb2f86ea",
   "lastOpenFiles": [
-    "10-23 Next Steps.md",
-    "10-21 Next Steps.md"
+    "11-3 Subclass Sandbox Notes.md",
+    "Untitled.md",
+    "11-1 - State Notes.md",
+    "10-21 Next Steps.md",
+    "10-23 Next Steps.md"
   ]
 }
