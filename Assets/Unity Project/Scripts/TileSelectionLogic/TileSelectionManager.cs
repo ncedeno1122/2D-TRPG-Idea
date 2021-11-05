@@ -1,6 +1,8 @@
 using System;
 using Unity_Project.Scripts.BattleDataScripts;
+using Unity_Project.Scripts.UIScripts.ActionPrompt;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Unity_Project.Scripts.TileSelectionLogic
 {
@@ -23,9 +25,12 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         public GridHelperScript GridHelper;
         public GridCursorController GridCursor;
 
+        public ActionPromptScript ActionPrompt;
+
         private void Start()
         {
             m_CurrentState = new CharacterSelectionState(this);
+            m_CurrentState.Enter();
         }
 
         // + + + + | Functions | + + + + 
@@ -35,8 +40,9 @@ namespace Unity_Project.Scripts.TileSelectionLogic
             m_CurrentState.HandleInput(tilePosition);
         }
 
-        public void HandleInput(TurnAction action)
+        public void HandleTurnAction(int turnActionInt)
         {
+            TurnAction action = (TurnAction) turnActionInt;
             m_CurrentState.HandleInput(action);
         }
 
@@ -109,14 +115,14 @@ namespace Unity_Project.Scripts.TileSelectionLogic
             }
             
             // Unaccounted case
-            Debug.Log("Could not get fitting TurnActionCommand for move...");
+            //Debug.Log("Could not get fitting TurnActionCommand for move...");
             return null;
         }
         
         public void CommitMoveInProgress()
         {
             var turnAction = GetTurnActionCommandFor(CurrentMoveInProgress);
-            BattleDataManager.AddTurnAction(turnAction);
+            BattleDataManager.AddTurnActionCommand(turnAction);
         }
     }
 }

@@ -12,8 +12,6 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         public override void Enter()
         {
             Debug.Log("Entered CharacterSelectionState!");
-            m_TileSelectionManager.CurrentMoveInProgress.User = m_TileSelectionManager.CurrentMoveInProgress.User; // Set it to what it was, or null if undefined yet.
-            m_TileSelectionManager.CurrentMoveInProgress.OriginPosition = m_TileSelectionManager.CurrentMoveInProgress.OriginPosition;
         }
 
         public override void Exit()
@@ -23,10 +21,25 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         public override void HandleInput(Vector3Int tilePosition)
         {
+            // Initial CharacterUnit Selection
             var characterOnTile = m_TileSelectionManager.GridHelper.GetCharacterOnTile(tilePosition);
-            
-            m_TileSelectionManager.CurrentMoveInProgress.User = characterOnTile;
-            m_TileSelectionManager.CurrentMoveInProgress.OriginPosition = tilePosition;
+
+            if (characterOnTile)
+            {
+                // Get Character Data on Tile
+                var charData = characterOnTile.UnitData;
+                var equippedBattleItem = characterOnTile.EquippedBattleItem;
+                var equippedBattleItemRange = equippedBattleItem ? equippedBattleItem.Range : 0;
+
+                TurnAction desiredAction = TurnAction.WAIT;
+                if (equippedBattleItem)
+                {
+                    desiredAction = equippedBattleItem is IWeapon ? TurnAction.ATTACK : TurnAction.HEAL;
+                }
+                
+                // PaintInteractionRange
+                m_TileSelectionManager.GridHelper.PaintInteractionRange(charData.Prototype.MoveRange, equippedBattleItemRange, characterOnTile.TilePosition, desiredAction);
+            }
             
             m_TileSelectionManager.AdvanceState();
         }

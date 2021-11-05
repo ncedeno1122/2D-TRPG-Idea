@@ -11,3 +11,13 @@ In any case, I have three states again I think:
 3. ActionPromptState
 	1. Helps the Player decide on their move and all that. This can probably be circumvented for AI somehow.
 4. Another state to transition back to 1? Probably not?
+
+### Resuming Work Overnight
+Oh yeah baby.
+In any case, I've moved forward with my architecture decision of using the TileSelectionStates and all that stuff. You can find the `TileSelectionManager` that maintains three states. This also has to take over the current duties of the `HandleSelectTile(Vector3Int tilePosition)` function in the `GridHelperScript`. Eventually, I will be able to decide the accessibility of all of the functions in that script to be used with the `TileSelectionManager`, but also have `GridHelperScript` focused mostly on helper functions related to pathfinding and getting areas of the main Grid.
+
+That said, the first state is mostly fleshed out.
+
+There are more things that need doing though:
+
+One problem is that there's a *lot* of buttons, and hooking  them up so that they return some int value representing their order seems like it can be done in an easier way to fulfill the `HandleInput(TurnAction ta)` function in the `ActionPromptScript`. This seems like it can be automated.

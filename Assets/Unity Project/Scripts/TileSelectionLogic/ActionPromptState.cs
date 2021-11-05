@@ -12,13 +12,15 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         public override void Enter()
         {
             Debug.Log("Entered ActionPromptState!");
-            m_TileSelectionManager.CurrentMoveInProgress.Action = m_TileSelectionManager.CurrentMoveInProgress.Action;
+            m_TileSelectionManager.ActionPrompt.Show();
         }
 
         // Commits the current move after the desired action and information is entered!
         public override void Exit()
         {
             Debug.Log("Exiting ActionPromptState!");
+            m_TileSelectionManager.ActionPrompt.Hide();
+            
             m_TileSelectionManager.CommitMoveInProgress();
         }
         
@@ -29,8 +31,6 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         public override void HandleInput(TurnAction action)
         {
-            m_TileSelectionManager.CurrentMoveInProgress.Action = action;
-            
             m_TileSelectionManager.AdvanceState();
         }
     }

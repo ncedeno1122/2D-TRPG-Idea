@@ -29,8 +29,9 @@ public class GridHelperScript : MonoBehaviour
     public Tile HealableTile;
 
     [Header("Other Information")]
+    [SerializeField]
     private List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
-
+    [SerializeField]
     private List<Vector3Int> ValidActionableTiles = new List<Vector3Int>();
 
     [SerializeField]
@@ -158,7 +159,7 @@ public class GridHelperScript : MonoBehaviour
     /// <summary>
     /// Clears the ActionTilemap, wiping the entire interaction range.
     /// </summary>
-    private void ClearInteractionRange()
+    public void ClearInteractionRange()
     {
         ActionTilemap.ClearAllTiles();
     }
@@ -175,7 +176,7 @@ public class GridHelperScript : MonoBehaviour
         {
             var currTile = BattleTilemap.GetTile(positionToCheck) as TerrainScriptableTile;
 
-            if (currTile) return;
+            if (!currTile) return;
             // Is the tile passable?
             if (currTile is { } && !currTile.IsPassable) return;
             if (!ValidMoveTiles.Contains(positionToCheck))
@@ -223,10 +224,10 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="actionRange"></param>
     /// <param name="position"></param>
     /// <param name="desiredAction"></param>
-    private void PaintInteractionRange(int range, int actionRange, Vector3Int position, TurnAction desiredAction)
+    public void PaintInteractionRange(int range, int actionRange, Vector3Int position, TurnAction desiredAction)
     {
         // TODO: Refactor this... it feels inefficient. KEEP primitive arguments for ease of testing!
-
+        //Debug.Log($"$ Painting range: {range}, actionRange: {actionRange}, position: {position}, and action {desiredAction}.");
         // Clear all Lists of previously painted ranges
         ValidMoveTiles.Clear();
         ValidActionableTiles.Clear();

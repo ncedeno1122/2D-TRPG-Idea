@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,9 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
     public class ActionPromptScript : MonoBehaviour
     {
         public Button TalkButton;
+        public Button InteractButton;
         public Button AttackButton;
+        public Button HealButton;
         public Button CombatArtsButton;
         public Button ChestButton;
         public Button ItemsButton;
@@ -38,8 +41,8 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
 
         // + + + + | Functions | + + + +
 
-        private void Hide() => gameObject.SetActive(false);
-        private void Show() => gameObject.SetActive(true);
+        public void Hide() => gameObject.SetActive(false);
+        public void Show() => gameObject.SetActive(true);
 
         private void HideButton(Button b)
         {

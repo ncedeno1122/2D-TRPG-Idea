@@ -21,7 +21,7 @@ namespace Unity_Project.Scripts.BattleDataScripts
         /// Sets a given TAC where it belongs in the current turn's TurnData
         /// </summary>
         /// <param name="cmd"></param>
-        public void AddTurnAction(TurnActionCommand cmd)
+        public void AddTurnActionCommand(TurnActionCommand cmd)
         {
             // Get or Create TurnData
             var td = m_TurnData[m_CurrentTurn - 1]; // TODO: Might this throw an out-of-bounds?
