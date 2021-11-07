@@ -6,25 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="528a24a2-98e3-46d3-b288-a5dcf3886a4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.2D-TRPG-Idea/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2D-TRPG-Idea/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Documents/ObsidianVault/.obsidian/workspace" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Documents/ObsidianVault/.obsidian/workspace" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/ScriptableObjects/CharacterUnits/TESTWarrior1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/ScriptableObjects/CharacterUnits/TESTWarrior1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/CharacterUnitScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/CharacterUnitScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridCursorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridCursorController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridHelperScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridHelperScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/CharacterSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/CharacterSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/UIScripts/ActionPrompt/ActionPromptScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/UIScripts/ActionPrompt/ActionPromptScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe0.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe1.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe2.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe3.log" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +80,7 @@
       <updated>1633579194156</updated>
       <workItem from="1633579237444" duration="1805000" />
       <workItem from="1636052434147" duration="1227000" />
-      <workItem from="1636165125112" duration="27644000" />
+      <workItem from="1636165125112" duration="29917000" />
     </task>
     <servers />
   </component>

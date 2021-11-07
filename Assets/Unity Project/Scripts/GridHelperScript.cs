@@ -7,18 +7,11 @@ using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum GridHelperState
-{
-    NO_TILE_SELECTED = 0,
-    FIRST_TILE_SELECTED = 1,
-    SECOND_TILE_SELECTED = 2,
-}
-
 public class GridHelperScript : MonoBehaviour
 {
+    public Grid Grid;
     [Header("Tilemaps and Entities")]
     public Tilemap BattleTilemap;
-
     public Tilemap ActionTilemap;
     public Transform TileEntities; // Helps me keep track of ALL TileEntities
 
@@ -34,14 +27,8 @@ public class GridHelperScript : MonoBehaviour
     private List<Vector3Int> ValidMoveTiles = new List<Vector3Int>();
     [SerializeField]
     private List<Vector3Int> ValidActionableTiles = new List<Vector3Int>();
-
     [SerializeField]
     private List<CharacterUnitScript> CharacterUnits;
-
-    public GridHelperState CurrentState = GridHelperState.NO_TILE_SELECTED;
-
-    public Vector3Int SelectedOriginTile, SelectedTargetTile;
-    public CharacterUnitScript SelectedCharacterUnit;
     public List<Vector3Int> SelectedTilePath = new List<Vector3Int>();
 
     private void OnValidate()
@@ -56,6 +43,9 @@ public class GridHelperScript : MonoBehaviour
                 CharacterUnits.Add(cus);
             }
         }
+        
+        // Get Grid
+        Grid = GetComponent<Grid>();
     }
 
     // + + + + | Functions | + + + +
@@ -65,9 +55,6 @@ public class GridHelperScript : MonoBehaviour
     /// </summary>
     public void ClearFoundTilePath()
     {
-        // Clear selected Tiles
-        SelectedOriginTile = Vector3Int.zero;
-        SelectedTargetTile = Vector3Int.zero;
         SelectedTilePath.Clear();
     }
 
@@ -252,8 +239,9 @@ public class GridHelperScript : MonoBehaviour
     
     public CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
     {
-        var boxPosition = new Vector2(tilePosition.x, tilePosition.y);
-        var hitCollider = Physics2D.OverlapBox(boxPosition, Vector2.one, 0f);
+        var alignedTilePosition = Grid.GetCellCenterWorld(tilePosition);
+        var boxPosition = new Vector2(alignedTilePosition.x, alignedTilePosition.y);
+        var hitCollider = Physics2D.OverlapBox(boxPosition, Grid.cellSize, 0f);
 
         if (hitCollider)
         {
@@ -271,9 +259,18 @@ public class GridHelperScript : MonoBehaviour
         List<CharacterUnitScript> targetsInRange = new List<CharacterUnitScript>();
         List<Vector3Int> vec3Range = new List<Vector3Int>();
         
-        
-        
-        
+        // Get vec3Range
+        RecursivelyGetTilesInRange(ref vec3Range, tilePosition, range);
+
+        foreach (var position in vec3Range)
+        {
+            var cus = GetCharacterOnTile(position);
+            if (cus)
+            {
+                targetsInRange.Add(cus);
+            }
+        }
+
         // Finally, return.
         return targetsInRange;
     }
