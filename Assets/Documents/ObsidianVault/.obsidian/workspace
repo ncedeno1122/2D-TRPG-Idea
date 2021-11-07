@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "11-4 TileSelectionState.md",
+            "file": "11-5 SNAKES ON THE PLANE.md",
             "mode": "source"
           }
         },
@@ -21,7 +21,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "11-4 TileSelectionState.md",
+            "file": "11-5 SNAKES ON THE PLANE.md",
             "mode": "preview"
           }
         },
@@ -65,7 +65,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "eba2b12dcf39077c",
@@ -81,7 +82,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "11-4 TileSelectionState.md",
+                "file": "11-5 SNAKES ON THE PLANE.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,6 +102,7 @@
   },
   "active": "7093d68cbb2f86ea",
   "lastOpenFiles": [
+    "11-5 SNAKES ON THE PLANE.md",
     "11-4 TileSelectionState.md",
     "11-3 Subclass Sandbox Notes.md",
     "11-1 - State Notes.md",

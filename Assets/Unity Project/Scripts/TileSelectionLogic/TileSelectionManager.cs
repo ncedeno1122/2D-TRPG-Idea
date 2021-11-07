@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity_Project.Scripts.BattleDataScripts;
 using Unity_Project.Scripts.UIScripts.ActionPrompt;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace Unity_Project.Scripts.TileSelectionLogic
     {
         private TileSelectionState m_CurrentState;
         public MoveInProgress CurrentMoveInProgress;
+        [SerializeField]
+        public List<Vector3Int> SelectedTilePath = new List<Vector3Int>();
 
         public BattleDataManager BattleDataManager;
         public GridHelperScript GridHelper;
@@ -29,6 +32,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         private void Start()
         {
+            // Initialize CurrentState
             m_CurrentState = new CharacterSelectionState(this);
             m_CurrentState.Enter();
         }
@@ -46,40 +50,21 @@ namespace Unity_Project.Scripts.TileSelectionLogic
             m_CurrentState.HandleInput(action);
         }
 
-        public void AdvanceState()
+        public void HandleKeyCodeInput(KeyCode kc)
         {
-            m_CurrentState.Exit();
-            
-            if (m_CurrentState is CharacterSelectionState)
-            {
-                m_CurrentState = new TargetSelectionState(this);
-            }
-            else if (m_CurrentState is TargetSelectionState)
-            {
-                m_CurrentState = new ActionPromptState(this);
-            }
-            else if (m_CurrentState is ActionPromptState)
-            {
-                m_CurrentState = new CharacterSelectionState(this);
-            }
-
-            m_CurrentState.Enter();
+            m_CurrentState.HandleInput(kc);
         }
-        
-        public void RevertState()
+
+        public void HandleRevertState()
         {
-            if (m_CurrentState is CharacterSelectionState) return; // Can't go back from the earliest state possible. 
-            
+            m_CurrentState.HandleRevertState();
+        }
+
+        public void ChangeState(TileSelectionState newState)
+        {
             m_CurrentState.Exit();
-            
-            if (m_CurrentState is TargetSelectionState)
-            {
-                m_CurrentState = new CharacterSelectionState(this);
-            }
-            else if (m_CurrentState is ActionPromptState)
-            {
-                m_CurrentState = new TargetSelectionState(this);
-            }
+
+            m_CurrentState = newState;
 
             m_CurrentState.Enter();
         }
@@ -98,7 +83,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                     return CurrentMoveInProgress.Target &&
                            CurrentMoveInProgress.TargetPosition != CurrentMoveInProgress.OriginPosition;
                 case TurnAction.TALK:
-                    // Get Talkable Neighbor?
+                    // Get Talk-able Neighbor?
                     return true; // TODO: 
                 default:
                     return true;

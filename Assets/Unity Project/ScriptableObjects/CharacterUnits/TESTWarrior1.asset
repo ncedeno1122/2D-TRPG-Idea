@@ -14,13 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: TestWarrior
   ID: 0
-  Allegiance: 1
+  Allegiance: 2
   Prototype: {fileID: 11400000, guid: 9305c410250f4884c9e55355b87d6eb0, type: 2}
   XPToNextLevel: 0
   CurrentXP: 0
-  StoredInventory:
-  - {fileID: 11400000, guid: 507838b71fe08c64292982360a0b9892, type: 2}
-  - {fileID: 11400000, guid: 3a9f286c9dab6b8439cec2dd3f8073ff, type: 2}
-  - {fileID: 11400000, guid: f544781f827906f47bbf85c18f1d16a0, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}

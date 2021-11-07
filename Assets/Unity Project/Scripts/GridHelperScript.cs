@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -60,95 +61,9 @@ public class GridHelperScript : MonoBehaviour
     // + + + + | Functions | + + + +
 
     /// <summary>
-    /// Handles Selection logic per Tile
-    /// </summary>
-    /// <param name="tilePosition"></param>
-    public void SelectTile(Vector3Int tilePosition) // TODO: Deselect Tile if already Selected.
-    {
-        HandleSelectTile(tilePosition);
-    }
-
-    /// <summary>
-    /// Uses GridHelperScript's current state to perform selection-related actions.
-    /// </summary>
-    /// <param name="tilePosition"></param>
-    private void HandleSelectTile(Vector3Int tilePosition)
-    {
-        // Tile info
-        var currTileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;
-
-        // CharacterUnit info
-        var characterOnTile = GetCharacterOnTile(tilePosition);
-
-        //Debug.Log($"Current Selection State is {CurrentState}!");
-        switch (CurrentState)
-        {
-            // If we haven't selected any Tiles yet,
-            case GridHelperState.NO_TILE_SELECTED:
-                if (characterOnTile)
-                {
-                    var charData = characterOnTile.UnitData;
-                    var equippedBattleItem = characterOnTile.EquippedBattleItem;
-                    int equippedBattleItemRange = equippedBattleItem ? equippedBattleItem.Range : 0;
-
-                    // Mark tile as selected
-                    CurrentState = GridHelperState.FIRST_TILE_SELECTED;
-                    SelectedOriginTile = tilePosition;
-                    SelectedCharacterUnit = characterOnTile;
-
-                    // Paint Interaction Range, which defines legal SelectedTargetTile candidates!
-                    //Debug.Log($"Found character {charData.Name} on SelectedOriginTile {SelectedOriginTile}! Painting Interaction Range.");
-
-                    TurnAction desiredAction = TurnAction.WAIT;
-                    if (equippedBattleItem)
-                    {
-                        desiredAction = equippedBattleItem is IWeapon ? TurnAction.ATTACK : TurnAction.HEAL;
-                    }
-
-                    PaintInteractionRange(charData.Prototype.MoveRange, equippedBattleItemRange, characterOnTile.TilePosition, desiredAction);
-                }
-                break;
-
-            case GridHelperState.FIRST_TILE_SELECTED:
-                if (!ValidMoveTiles.Contains(tilePosition) && !ValidActionableTiles.Contains(tilePosition))
-                {
-                    //Debug.Log($"Second selection {tilePosition} is not in the interaction range. Exiting Selection mode.");
-                    // If we click outside the range, clear it all out
-                    CurrentState = GridHelperState.NO_TILE_SELECTED;
-                    ClearFoundTilePath();
-                    ClearInteractionRange();
-                    return;
-                }
-                CurrentState = GridHelperState.SECOND_TILE_SELECTED; // Redundant if unreachable?
-                SelectedTargetTile = tilePosition;
-
-                // Find Path to Target
-                if (FindPathToTarget(SelectedOriginTile, SelectedTargetTile, ref SelectedTilePath))
-                {
-                    EnsureWalkablePath(ref SelectedTilePath);
-                    if (SelectedTilePath.Count > 0)
-                    {
-                        SelectedCharacterUnit.FollowPath(SelectedTilePath);
-                    }
-                }
-
-                // Debug: FUN
-                CurrentState = GridHelperState.NO_TILE_SELECTED;
-                ClearFoundTilePath();
-                ClearInteractionRange();
-
-                // TODO: Pull up context UI and all that.
-                break;
-
-            case GridHelperState.SECOND_TILE_SELECTED: // Unreachable?
-                break;
-        }
-    }
-
-    /// <summary>
     /// Clears the A*-found path of Tiles to a particular point.
     /// </summary>
-    private void ClearFoundTilePath()
+    public void ClearFoundTilePath()
     {
         // Clear selected Tiles
         SelectedOriginTile = Vector3Int.zero;
@@ -164,6 +79,37 @@ public class GridHelperScript : MonoBehaviour
         ActionTilemap.ClearAllTiles();
     }
 
+    /// <summary>
+    /// Returns a list of all tile positions within a given range.
+    /// </summary>
+    /// <param name="tilePosition"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public List<Vector3Int> GetTilesInRange(Vector3Int tilePosition, int range)
+    {
+        List<Vector3Int> tileList = new List<Vector3Int>();
+        
+        RecursivelyGetTilesInRange(ref tileList, tilePosition, range);
+
+        return tileList;
+    }
+
+    /// <summary>
+    /// Helper function to get all surrounding tiles within a given range, updates a given list.
+    /// </summary>
+    /// <param name="tileList"></param>
+    /// <param name="positionToCheck"></param>
+    /// <param name="moveRange"></param>
+    private void RecursivelyGetTilesInRange(ref List<Vector3Int> tileList, Vector3Int positionToCheck, int moveRange)
+    {
+        if (moveRange < 0) return;
+        if (tileList.Contains(positionToCheck)) return;
+        RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.up, moveRange - 1);
+        RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.right, moveRange - 1);
+        RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.left, moveRange - 1);
+        RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.down, moveRange - 1);
+    }
+    
     /// <summary>
     /// Recursively finds all valid movement tiles within the moveRange
     /// </summary>
@@ -285,21 +231,51 @@ public class GridHelperScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Tries to find if a CharacterUnitScript is on a give tilePosition
+    /// Returns whether the given tile position is within the ValidMoveTiles list.
     /// </summary>
     /// <param name="tilePosition"></param>
     /// <returns></returns>
+    public bool IsTileMovable(Vector3Int tilePosition)
+    {
+        return ValidMoveTiles.Contains(tilePosition);
+    }
+
+    /// <summary>
+    /// Returns whether the given tile position is within the ValidActionableTiles list.
+    /// </summary>
+    /// <param name="tilePosition"></param>
+    /// <returns></returns>
+    public bool IsTileActionable(Vector3Int tilePosition)
+    {
+        return ValidActionableTiles.Contains(tilePosition);
+    }
+    
     public CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
     {
-        foreach (CharacterUnitScript cus in CharacterUnits)
+        var boxPosition = new Vector2(tilePosition.x, tilePosition.y);
+        var hitCollider = Physics2D.OverlapBox(boxPosition, Vector2.one, 0f);
+
+        if (hitCollider)
         {
-            if (cus.TilePosition == tilePosition)
-            {
-                return cus;
-            }
+            Debug.Log($"Successfully hit {hitCollider.gameObject.name}!");
+            
+            var cus = hitCollider.gameObject.GetComponent<CharacterUnitScript>();
+            return cus;
         }
 
         return null;
+    }
+
+    public List<CharacterUnitScript> GetCharactersInRange(Vector3Int tilePosition, int range)
+    {
+        List<CharacterUnitScript> targetsInRange = new List<CharacterUnitScript>();
+        List<Vector3Int> vec3Range = new List<Vector3Int>();
+        
+        
+        
+        
+        // Finally, return.
+        return targetsInRange;
     }
 
     private int GetManhattanDistance(Vector3Int a, Vector3Int b)
@@ -345,7 +321,7 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    private bool FindPathToTarget(Vector3Int origin, Vector3Int target, ref List<Vector3Int> path)
+    public bool FindPathToTarget(Vector3Int origin, Vector3Int target, ref List<Vector3Int> path)
     {
         GridNode start = new GridNode(origin, true);
         GridNode end = new GridNode(target, true);
@@ -461,7 +437,7 @@ public class GridHelperScript : MonoBehaviour
     /// Validates and ensures that the given path is Walkable and doesn't contain any Attackable tiles.
     /// </summary>
     /// <param name="path"></param>
-    private void EnsureWalkablePath(ref List<Vector3Int> path)
+    public void EnsureWalkablePath(ref List<Vector3Int> path)
     {
         path.RemoveAll(x => !ValidMoveTiles.Contains(x) && ValidActionableTiles.Contains(x)); // ONLY remove the path indices that are solely attackable.
     }

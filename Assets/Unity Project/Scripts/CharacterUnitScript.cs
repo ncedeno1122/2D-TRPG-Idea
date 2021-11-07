@@ -24,16 +24,21 @@ public class CharacterUnitScript : MonoBehaviour
     {
         m_Grid = transform.parent.parent.GetComponent<Grid>();
         m_Animator = GetComponent<Animator>();
-
-        gameObject.name = UnitData.Name;
-
-        // Should be some way to do this in editor...
-        transform.position = m_Grid.GetCellCenterWorld(TilePosition);
-        TilePosition = Vector3Int.FloorToInt(transform.position);
     }
 
     private void OnValidate()
     {
+        // Set Name according to data
+        if (UnitData)
+        {
+            gameObject.name = UnitData.Name;
+        }
+        
+        // Align to Grid on validation
+        m_Grid = transform.parent.parent.GetComponent<Grid>();
+        TilePosition = Vector3Int.FloorToInt(transform.position); //
+        transform.position = m_Grid.GetCellCenterWorld(TilePosition);
+
         // Helps prevent resizing of the StoredInventory array in the editor!
         if (Inventory.Length != INVENTORY_SIZE)
         {
@@ -57,6 +62,16 @@ public class CharacterUnitScript : MonoBehaviour
 
     // + + + + | Functions | + + + +
 
+    /// <summary>
+    /// Moves a CharacterUnitScript to a given tilePosition without animation or anything fancy.
+    /// </summary>
+    /// <param name="tilePosition"></param>
+    public void SnapToPosition(Vector3Int tilePosition)
+    {
+        transform.position = m_Grid.GetCellCenterWorld(tilePosition);
+        TilePosition = tilePosition;
+    }
+    
     /// <summary>
     /// Handles the FollowPathCRT, only allowing movement if not currently moving.
     /// </summary>
