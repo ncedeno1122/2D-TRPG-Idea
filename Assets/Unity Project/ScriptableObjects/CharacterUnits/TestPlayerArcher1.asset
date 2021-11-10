@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 931ac67e0279b9f4c8c908ce9708ffed, type: 3}
-  m_Name: Archer
+  m_Script: {fileID: 11500000, guid: d79214c25fcc5f041874eb1b75a4ebd4, type: 3}
+  m_Name: TestPlayerArcher1
   m_EditorClassIdentifier: 
-  UnitType: 1
-  Level: 1
-  MaxHP: 6
-  PhysicalAttack: 8
-  MagicalAttack: 2
-  PhysicalDefense: 3
-  MagicalDefense: 2
-  MoveRange: 3
+  Name: TESTPlayerArcher1
+  ID: 0
+  Allegiance: 1
+  Prototype: {fileID: 11400000, guid: 82a23af4478c2d54ab9f1a85c5a73126, type: 2}
+  XPToNextLevel: 0
+  CurrentXP: 0

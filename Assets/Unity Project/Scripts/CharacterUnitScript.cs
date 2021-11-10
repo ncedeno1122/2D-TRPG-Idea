@@ -1,11 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterUnitScript : MonoBehaviour
+public class CharacterUnitScript : TileEntity
 {
     public int CurrentHP;
-    public Vector3Int TilePosition;
     public CharacterUnit UnitData;
 
     [SerializeField] // TODO: It would be really nice to expose this somehow. [SerializeReference] won't work...
@@ -17,12 +17,11 @@ public class CharacterUnitScript : MonoBehaviour
     private const float MOVEMENT_SPEED = 15f;
     private bool m_isMoving;
     private bool IsDead;
-    private Grid m_Grid; // TODO: Do we even need a reference to the Grid?
+    
     private Animator m_Animator;
-
+    
     private void Start()
     {
-        m_Grid = transform.parent.parent.GetComponent<Grid>();
         m_Animator = GetComponent<Animator>();
     }
 
@@ -125,4 +124,109 @@ public class CharacterUnitScript : MonoBehaviour
         m_Animator.SetBool("IsMoving", false);
         //TilePosition = Vector3Int.FloorToInt(pathArr[0]); Position is committed when the TileActionCommand is confirmed.
     }
+
+    private bool HasWeaponItem()
+    {
+        for (int i = 0; i < Inventory.Length - 1; i++)
+        {
+            if (Inventory[i] is WeaponData)
+            {
+                return true;
+            }
+        }
+        
+        if (EquippedBattleItem)
+        {
+            return EquippedBattleItem is WeaponData;
+        }
+        
+        return false;
+    }
+
+    private bool HasBattleHealingItem()
+    {
+        for (int i = 0; i < Inventory.Length - 1; i++)
+        {
+            if (Inventory[i] is ConcreteBattleHealingData || Inventory[i] is PercentageBattleHealingData)
+            {
+                return true;
+            }
+        }
+
+        if (EquippedBattleItem)
+        {
+            return EquippedBattleItem is ConcreteBattleHealingData || EquippedBattleItem is PercentageBattleHealingData;
+        }
+        
+        return false;
+    }
+    
+    // TurnAction functions
+    // TODO: Implement CharacterUnitScript abstraction 'TileEntity' and other children that satisfy these function conditions.
+    public bool CanTalkWith(TileEntity other) => false;
+    
+    public bool CanInteractWith(TileEntity other) => false;
+
+    public bool CanAttack(TileEntity other)
+    {
+        if (!HasWeaponItem()) return false;
+        if (!(other is CharacterUnitScript otherCus))
+            return false; // TODO: For now. Perhaps an IAttackable or ITargetable interface could be useful for things like breakable walls.
+        switch (UnitData.Allegiance)
+        {
+            case Allegiance.PLAYER:
+                return otherCus.UnitData.Allegiance == Allegiance.ENEMY;
+            case Allegiance.ALLY:
+                return otherCus.UnitData.Allegiance == Allegiance.ENEMY;
+            case Allegiance.ENEMY:
+                return otherCus.UnitData.Allegiance == Allegiance.PLAYER || otherCus.UnitData.Allegiance == Allegiance.ALLY;
+        }
+
+        return false; // TODO: For now. Perhaps an IAttackable or ITargetable interface could be useful for things like breakable walls.
+    }
+
+    public bool CanHeal(TileEntity other)
+    {
+        if (!HasBattleHealingItem()) return false;
+        if (!(other is CharacterUnitScript otherCus))
+            return false; // TODO: For now. Perhaps an IAttackable or ITargetable interface could be useful for things like breakable walls.
+        switch (UnitData.Allegiance)
+        {
+            case Allegiance.PLAYER:
+                return otherCus.UnitData.Allegiance == Allegiance.PLAYER || otherCus.UnitData.Allegiance == Allegiance.ALLY;
+            case Allegiance.ALLY:
+                return otherCus.UnitData.Allegiance == Allegiance.PLAYER || otherCus.UnitData.Allegiance == Allegiance.ALLY;
+            case Allegiance.ENEMY:
+                return otherCus.UnitData.Allegiance == Allegiance.ENEMY;
+        }
+
+        return false;
+    }
+
+    public bool CanUnlockChest(TileEntity other) => false; // TODO: Check inventory for key OR if theif
+
+    public bool CanUseItems()
+    {
+        for (int i = 0; i < Inventory.Length - 1; i++)
+        {
+            if (Inventory[i] != null) return true;
+        }
+        
+        // Finally, do we have an equipped item?
+        return EquippedBattleItem;
+    }
+
+    public bool CanTrade(TileEntity other)
+    {
+        if (!(other is CharacterUnitScript otherCus)) return false;
+        if (UnitData.Allegiance == otherCus.UnitData.Allegiance && UnitData.Allegiance != Allegiance.ALLY)
+        {
+            // Can only trade if either Unit doesn't have an empty Inventory
+            return CanUseItems() || otherCus.CanUseItems(); // TODO: Really checking if inventory is empty. Helper function suits this better.
+        }
+        
+        return false;
+    }
+
+    public bool CanUseConvoy() => false; // TODO: Must be certain classes
 }

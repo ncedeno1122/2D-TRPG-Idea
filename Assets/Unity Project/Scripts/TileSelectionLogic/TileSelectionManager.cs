@@ -11,10 +11,10 @@ namespace Unity_Project.Scripts.TileSelectionLogic
     public struct MoveInProgress
     {
         public CharacterUnitScript User;
-        public CharacterUnitScript Target;
+        public TileEntity Target;
         public TurnAction Action;
         public Vector3Int OriginPosition;
-        public Vector3Int TargetPosition;
+        public Vector3Int? TargetPosition;
     }
     
     public class TileSelectionManager : MonoBehaviour // Functions as Context for State, uses Observer to message states

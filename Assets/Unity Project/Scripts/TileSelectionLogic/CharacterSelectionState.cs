@@ -12,7 +12,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
     
         public override void Enter()
         {
-            m_GridHelper.ClearInteractionRange();
+            m_GridHelper.ClearActionTilemap();
             Debug.Log("Entered CharacterSelectionState!");
         }
 

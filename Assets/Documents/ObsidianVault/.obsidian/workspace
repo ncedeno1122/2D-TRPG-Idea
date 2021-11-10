@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "11-5 SNAKES ON THE PLANE.md",
+            "file": "11-8 Grand Canyon Development.md",
             "mode": "source"
           }
         },
@@ -21,7 +21,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "11-5 SNAKES ON THE PLANE.md",
+            "file": "11-8 Grand Canyon Development.md",
             "mode": "preview"
           }
         },
@@ -65,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "eba2b12dcf39077c",
@@ -82,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "11-5 SNAKES ON THE PLANE.md",
+                "file": "11-8 Grand Canyon Development.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,6 +101,8 @@
   },
   "active": "7093d68cbb2f86ea",
   "lastOpenFiles": [
+    "11-8 Grand Canyon Development.md",
+    "11-6 Tightening up Earlier States.md",
     "11-5 SNAKES ON THE PLANE.md",
     "11-4 TileSelectionState.md",
     "11-3 Subclass Sandbox Notes.md",

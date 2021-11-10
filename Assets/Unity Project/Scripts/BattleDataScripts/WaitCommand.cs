@@ -4,7 +4,7 @@ namespace Unity_Project.Scripts.BattleDataScripts
 {
     public class WaitCommand : TurnActionCommand
     {
-        public WaitCommand(CharacterUnitScript user, Vector3Int targetPosition) : base(user, null, targetPosition)
+        public WaitCommand(CharacterUnitScript user, Vector3Int? targetPosition) : base(user, null, targetPosition)
         {
             Action = TurnAction.WAIT;
         }
@@ -17,10 +17,8 @@ namespace Unity_Project.Scripts.BattleDataScripts
         public override void Execute()
         {
             if (!IsActionValid()) return;
-            if (TargetPosition != OriginPosition)
-            {
-                User.TilePosition = TargetPosition;
-            }
+            if (TargetPosition == OriginPosition) return;
+            if (TargetPosition != null) User.TilePosition = (Vector3Int)TargetPosition;
         }
 
         public override void Undo()

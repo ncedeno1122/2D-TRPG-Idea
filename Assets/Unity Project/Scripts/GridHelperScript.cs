@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -59,9 +57,9 @@ public class GridHelperScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Clears the ActionTilemap, wiping the entire interaction range.
+    /// Clears the ActionTilemap.
     /// </summary>
-    public void ClearInteractionRange()
+    public void ClearActionTilemap()
     {
         ActionTilemap.ClearAllTiles();
     }
@@ -71,12 +69,19 @@ public class GridHelperScript : MonoBehaviour
     /// </summary>
     /// <param name="tilePosition"></param>
     /// <param name="range"></param>
+    /// <param name="includeOrigin"></param>
     /// <returns></returns>
-    public List<Vector3Int> GetTilesInRange(Vector3Int tilePosition, int range)
+    public List<Vector3Int> GetTilesInRange(Vector3Int tilePosition, int range, bool includeOrigin)
     {
-        List<Vector3Int> tileList = new List<Vector3Int>();
+        var tileList = new List<Vector3Int>();
         
-        RecursivelyGetTilesInRange(ref tileList, tilePosition, range);
+        RecursivelyGetTilesInRangeByAdjacent(ref tileList, tilePosition, range);
+        //Debug.Log($"Done GettingTilesInRange; count {tileList.Count}!");
+
+        if (!includeOrigin)
+        {
+            tileList.Remove(tilePosition);
+        }
 
         return tileList;
     }
@@ -89,49 +94,112 @@ public class GridHelperScript : MonoBehaviour
     /// <param name="moveRange"></param>
     private void RecursivelyGetTilesInRange(ref List<Vector3Int> tileList, Vector3Int positionToCheck, int moveRange)
     {
+        // TODO: THIS FUNCTION IS BROKEN FOR SOME REASON I CAN'T FIGURE OUT
+        /*
+         * So the thing is, when we have a range that should look like this,
+         *             [ ] 
+         *         [ ] [ ] [ ]
+         *     [ ] [ ] [ ] [ ] [ ]
+         * [ ] [ ] [ ] [O] [ ] [ ] [ ] having a range of 3 around the Origin Tile,
+         *     [ ] [ ] [ ] [ ] [ ]
+         *         [ ] [ ] [ ]
+         *             [ ]
+         *
+         * I get this instead:
+         *
+         *             [ ]
+         *         [ ] [ ] [ ]
+         *     [ ] [ ] [ ] [ ] [ ]
+         *         [ ] [O] [ ]         <- This weird happenstance occurs
+         *     [ ] [ ] [ ] [ ] [ ]
+         *         [ ] [ ] [ ]
+         *             [ ]
+         *
+         * This pattern occurs when I start with the + up or + down recursive calls, and
+         * I get it flipped by 90 degrees when I start with the + right or + left recursive calls.
+         * I don't get why this isn't working, but I've made a function that does this with a for
+         * loop and it works fine (while admittedly less efficient iI think)
+         */
+        
         if (moveRange < 0) return;
         if (tileList.Contains(positionToCheck)) return;
+        
+        // Add Tiles to list
+        tileList.Add(positionToCheck);
+
         RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.up, moveRange - 1);
         RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.right, moveRange - 1);
-        RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.left, moveRange - 1);
         RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.down, moveRange - 1);
+        RecursivelyGetTilesInRange(ref tileList, positionToCheck + Vector3Int.left, moveRange - 1);
     }
-    
-    /// <summary>
-    /// Recursively finds all valid movement tiles within the moveRange
-    /// </summary>
-    /// <param name="positionToCheck"></param>
-    /// <param name="moveRange"></param>
-    private void RecursivelyGetMoveRange(Vector3Int positionToCheck, int moveRange)
+
+    private void RecursivelyGetTilesInRangeByAdjacent(ref List<Vector3Int> tileList, Vector3Int positionToCheck, int moveRange)
     {
-        // If the Tile is unknown and within our WalkableRange
-        if (moveRange >= 0)
+        for (int x = positionToCheck.x - moveRange; x <= positionToCheck.x + moveRange; x++)
         {
-            var currTile = BattleTilemap.GetTile(positionToCheck) as TerrainScriptableTile;
-
-            if (!currTile) return;
-            // Is the tile passable?
-            if (currTile is { } && !currTile.IsPassable) return;
-            if (!ValidMoveTiles.Contains(positionToCheck))
+            for (int y = positionToCheck.y - moveRange; y <= positionToCheck.y + moveRange; y++)
             {
-                ValidMoveTiles.Add(positionToCheck);
-            }
+                var currTilePos = new Vector3Int(x, y, 0);
 
-            // Recurse!
-            RecursivelyGetMoveRange(positionToCheck + Vector3Int.up, moveRange - 1 + currTile.MovementCost);
-            RecursivelyGetMoveRange(positionToCheck + Vector3Int.right, moveRange - 1 + currTile.MovementCost);
-            RecursivelyGetMoveRange(positionToCheck + Vector3Int.left, moveRange - 1 + currTile.MovementCost);
-            RecursivelyGetMoveRange(positionToCheck + Vector3Int.down, moveRange - 1 + currTile.MovementCost);
+                if (GetManhattanDistance(currTilePos, positionToCheck) > moveRange) continue;
+                tileList.Add(currTilePos);
+            }
         }
     }
 
     /// <summary>
-    /// Finds the Action range for a defined list of ValidMoveTiles
+    /// Returns a list of all movable tile positions within a given range.
     /// </summary>
-    /// <param name="actionRange"></param>
-    private void GetActionableRange(int actionRange)
+    /// <param name="tilePosition"></param>
+    /// <param name="moveRange"></param>
+    /// <returns></returns>
+    public List<Vector3Int> GetMovableRange(Vector3Int tilePosition, int moveRange)
     {
-        foreach (Vector3Int position in ValidMoveTiles)
+        //Debug.Log($"Getting Movable Range {moveRange} tiles around {tilePosition}");
+        var tileList = new List<Vector3Int>();
+        
+        RecursivelyGetMovableTiles(ref tileList, tilePosition, moveRange);
+        //Debug.Log($"Done RecursivelyGettingMovableTiles, got {tileList.Count}");
+
+        return tileList;
+    }
+
+    /// <summary>
+    /// Helper function for GetMovableRange, edits a predefined list with all valid movable tiles within a given range.
+    /// </summary>
+    /// <param name="tileList"></param>
+    /// <param name="positionToCheck"></param>
+    /// <param name="moveRange"></param>
+    private void RecursivelyGetMovableTiles(ref List<Vector3Int> tileList, Vector3Int positionToCheck, int moveRange)
+    {
+        if (moveRange < 0) return;
+        if (tileList.Contains(positionToCheck)) return;
+        
+        // Get tile info
+        var currTile = BattleTilemap.GetTile(positionToCheck) as TerrainScriptableTile;
+
+        if (!currTile) return;
+        if (!currTile.IsPassable) return;
+        //Debug.Log($"Valid movable tile at { positionToCheck }! Range is { moveRange } at present!");
+        tileList.Add(positionToCheck);
+        
+        // Finally, recurse!
+        RecursivelyGetMovableTiles(ref tileList, positionToCheck + Vector3Int.up, (moveRange - 1) + currTile.MovementCost);
+        RecursivelyGetMovableTiles(ref tileList, positionToCheck + Vector3Int.right, (moveRange - 1) + currTile.MovementCost);
+        RecursivelyGetMovableTiles(ref tileList, positionToCheck + Vector3Int.down, (moveRange - 1) + currTile.MovementCost);
+        RecursivelyGetMovableTiles(ref tileList, positionToCheck + Vector3Int.left, (moveRange - 1) + currTile.MovementCost);
+    }
+
+    /// <summary>
+    /// Finds the ActionableRange around a predefined movableList.
+    /// </summary>
+    /// <param name="movableList"></param>
+    /// <param name="actionRange"></param>
+    public List<Vector3Int> GetActionableRange(ref List<Vector3Int> movableList, int actionRange)
+    {
+        var actionableList = new List<Vector3Int>();
+        
+        foreach (var position in movableList)
         {
             for (int x = position.x - actionRange; x <= position.x + actionRange; x++)
             {
@@ -140,51 +208,49 @@ public class GridHelperScript : MonoBehaviour
                     var currTilePosition = new Vector3Int(x, y, 0);
                     if (GetManhattanDistance(position, currTilePosition) > actionRange) continue;
 
-                    if (!ValidActionableTiles.Contains(currTilePosition) &&
-                            !ValidMoveTiles.Contains(currTilePosition))
-                        {
-                            ValidActionableTiles.Add(currTilePosition);
-                        }
+                    if (!actionableList.Contains(currTilePosition) &&
+                        !movableList.Contains(currTilePosition))
+                    {
+                        actionableList.Add(currTilePosition);
+                    }
                 }
             }
+        }
+
+        return actionableList;
+    }
+    
+    public void PaintRange(Vector3Int position, ref List<Vector3Int> rangeList, Tile tileToUse)
+    {
+        foreach (var tilePosition in rangeList)
+        {
+            ActionTilemap.SetTile(tilePosition, tileToUse);
         }
     }
 
     /// <summary>
     /// Clears the current InteractionRange and paints a new one based on CharacterUnit parameters.
     /// </summary>
-    /// <param name="range"></param>
-    /// <param name="actionRange"></param>
-    /// <param name="position"></param>
-    /// <param name="desiredAction"></param>
-    public void PaintInteractionRange(int range, int actionRange, Vector3Int position, TurnAction desiredAction)
+    public void PaintInteractionRange(Vector3Int position, ref List<Vector3Int> movableRange, ref List<Vector3Int> actionableRange, IBattleItem battleItem)
     {
-        // TODO: Refactor this... it feels inefficient. KEEP primitive arguments for ease of testing!
-        //Debug.Log($"$ Painting range: {range}, actionRange: {actionRange}, position: {position}, and action {desiredAction}.");
-        // Clear all Lists of previously painted ranges
-        ValidMoveTiles.Clear();
-        ValidActionableTiles.Clear();
         ActionTilemap.ClearAllTiles();
 
-        // Get each range
-        RecursivelyGetMoveRange(position, range);
-        GetActionableRange(actionRange);
-
-        // Get type of tile to use for the Equipped Item
-        Tile tileToUse = GetActionableTileForTileAction(desiredAction);
+        var desiredAction = battleItem is IWeapon ? TurnAction.ATTACK : TurnAction.HEAL;  
+        var tileToUse = GetActionableTileForTileAction(desiredAction);
 
         // Paint the ranges
-        foreach (Vector3Int tilePosition in ValidMoveTiles)
-        {
-            ActionTilemap.SetTile(tilePosition, WalkableTile);
-        }
+        PaintRange(position, ref movableRange, WalkableTile);
+        PaintRange(position, ref actionableRange, tileToUse);
 
-        foreach (Vector3Int tilePosition in ValidActionableTiles)
-        {
-            ActionTilemap.SetTile(tilePosition, tileToUse);
-        }
+        //ActionTilemap.SetTile(position, OriginTile);
+    }
 
-        ActionTilemap.SetTile(position, OriginTile);
+    public void PaintEntityTiles(ref List<TileEntity> entityList)
+    {
+        foreach (var entity in entityList)
+        {
+            ActionTilemap.SetTile(entity.TilePosition, OriginTile);
+        }
     }
 
     /// <summary>
@@ -198,7 +264,7 @@ public class GridHelperScript : MonoBehaviour
         switch (ta)
         {
             case TurnAction.WAIT:
-                //return NoneableTile;
+                //return None-ableTile;
             case TurnAction.ATTACK:
                 return AttackableTile;
             case TurnAction.HEAL:
@@ -207,34 +273,28 @@ public class GridHelperScript : MonoBehaviour
             //    return InteractableTile;
             //    break;
             //case TileAction.TALK:
-            //    return TalkableTile;
+            //    return Talk-ableTile;
             //    break;
             //case TileAction.CHEST:
-            //    return ChestableTile; LOL Chest-able
+            //    return Chest-ableTile; LOL Chest-able
             //    break;
             default:
                 return OriginTile;
         }
     }
-
-    /// <summary>
-    /// Returns whether the given tile position is within the ValidMoveTiles list.
-    /// </summary>
-    /// <param name="tilePosition"></param>
-    /// <returns></returns>
-    public bool IsTileMovable(Vector3Int tilePosition)
+    
+    public TileEntity GetTileEntityOnTile(Vector3Int tilePosition)
     {
-        return ValidMoveTiles.Contains(tilePosition);
-    }
+        var alignedTilePosition = Grid.GetCellCenterWorld(tilePosition);
+        var boxPosition = new Vector2(alignedTilePosition.x, alignedTilePosition.y);
+        var hitCollider = Physics2D.OverlapBox(boxPosition, Grid.cellSize, 0f);
 
-    /// <summary>
-    /// Returns whether the given tile position is within the ValidActionableTiles list.
-    /// </summary>
-    /// <param name="tilePosition"></param>
-    /// <returns></returns>
-    public bool IsTileActionable(Vector3Int tilePosition)
-    {
-        return ValidActionableTiles.Contains(tilePosition);
+        if (!hitCollider) return null;
+        //Debug.Log($"Successfully hit {hitCollider.gameObject.name}!");
+            
+        var tileEntity = hitCollider.gameObject.GetComponent<TileEntity>();
+        return tileEntity;
+
     }
     
     public CharacterUnitScript GetCharacterOnTile(Vector3Int tilePosition)
@@ -243,17 +303,33 @@ public class GridHelperScript : MonoBehaviour
         var boxPosition = new Vector2(alignedTilePosition.x, alignedTilePosition.y);
         var hitCollider = Physics2D.OverlapBox(boxPosition, Grid.cellSize, 0f);
 
-        if (hitCollider)
-        {
-            Debug.Log($"Successfully hit {hitCollider.gameObject.name}!");
+        if (!hitCollider) return null;
+        //Debug.Log($"Successfully hit {hitCollider.gameObject.name}!");
             
-            var cus = hitCollider.gameObject.GetComponent<CharacterUnitScript>();
-            return cus;
-        }
+        var cus = hitCollider.gameObject.GetComponent<CharacterUnitScript>();
+        return cus;
 
-        return null;
     }
 
+    public List<TileEntity> GetTileEntitiesInRange(Vector3Int tilePosition, int range)
+    {
+        List<TileEntity> entitiesInRange = new List<TileEntity>();
+        List<Vector3Int> vec3Range = new List<Vector3Int>();
+        
+        RecursivelyGetTilesInRange(ref vec3Range, tilePosition, range);
+
+        foreach (var position in vec3Range)
+        {
+            var tileEntity = GetTileEntityOnTile(position);
+            if (tileEntity)
+            {
+                entitiesInRange.Add(tileEntity);
+            }
+        }
+
+        return entitiesInRange;
+    }
+    
     public List<CharacterUnitScript> GetCharactersInRange(Vector3Int tilePosition, int range)
     {
         List<CharacterUnitScript> targetsInRange = new List<CharacterUnitScript>();
@@ -310,6 +386,11 @@ public class GridHelperScript : MonoBehaviour
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return Position.ToString();
+        }
     }
 
     /// <summary>
@@ -317,45 +398,46 @@ public class GridHelperScript : MonoBehaviour
     /// </summary>
     /// <param name="origin"></param>
     /// <param name="target"></param>
+    /// <param name="path"></param>
+    /// <param name="validTiles"></param>
     /// <returns></returns>
-    public bool FindPathToTarget(Vector3Int origin, Vector3Int target, ref List<Vector3Int> path)
+    public bool FindPathToTarget(Vector3Int origin, Vector3Int target, ref List<Vector3Int> path, ref List<Vector3Int> validTiles)
     {
-        GridNode start = new GridNode(origin, true);
-        GridNode end = new GridNode(target, true);
+        //Debug.Log($"Finding path from {origin} to {target}!");
+        GridNode startNode = new GridNode(origin, true);
+        GridNode endNode = new GridNode(target, true);
         List<GridNode> openList = new List<GridNode>();
         List<GridNode> closedList = new List<GridNode>();
-        List<GridNode> adjacents;
-        GridNode current = start;
+        GridNode current = startNode;
 
-        openList.Add(start);
+        openList.Add(startNode);
 
-        while (openList.Count != 0 && !closedList.Exists(x => x.Position == end.Position))
+        while (openList.Count != 0 && !closedList.Exists(x => x.Position == endNode.Position))
         {
             current = openList[0];
             openList.Remove(current);
             closedList.Add(current);
-            adjacents = GetInteractableAdjacents(current);
+            var adjacentNodes = GetInteractableAdjacentNodes(current, ref validTiles);
 
-            foreach (GridNode node in adjacents)
+            //Debug.Log($"Considering Node {current} with {adjacentNodes.Count} adjacent nodes...");
+            
+            foreach (var node in adjacentNodes)
             {
-                if (!closedList.Contains(node) && (node.IsPassable || node.Position == end.Position)) // Allows selected Tile to be reached if Attackable
-                {
-                    if (!openList.Contains(node))
-                    {
-                        node.Parent = current;
-                        node.g = GetManhattanDistance(origin, node.Position);
-                        node.h = GetManhattanDistance(node.Position, target);
-                        node.f = node.g + node.h;
-                        openList.Add(node);
-                        // Re-sort the openList!
-                        openList = openList.OrderBy(listNode => listNode.f).ToList<GridNode>();
-                    }
-                }
+                if (closedList.Contains(node) || (!node.IsPassable && node.Position != endNode.Position)) continue;
+                if (openList.Contains(node)) continue;
+                node.Parent = current;
+                node.g = GetManhattanDistance(origin, node.Position);
+                node.h = GetManhattanDistance(node.Position, target);
+                node.f = node.g + node.h;
+                openList.Add(node);
+                //Debug.Log($"Node {node} is a valid adjacent and is added to the openList!");
+                // Re-sort the openList!
+                openList = openList.OrderBy(listNode => listNode.f).ToList<GridNode>();
             }
         }
 
         // If there's no path, return null...
-        if (!closedList.Exists(x => x.Position == end.Position))
+        if (!closedList.Exists(x => x.Position == endNode.Position))
         {
             //Debug.Log("No path found!");
             return false;
@@ -369,8 +451,8 @@ public class GridHelperScript : MonoBehaviour
             path.Add(temp.Position);
 
             temp = temp.Parent;
-        } while (temp != start && temp != null);
-
+        } while (!temp.Equals(startNode) && !temp.Equals(null));
+        
         //Debug.Log($"Size of closedList: {closedList.Count}. Size of openList: {openList.Count}. Length of path: {path.Count}");
         return true;
     }
@@ -379,63 +461,54 @@ public class GridHelperScript : MonoBehaviour
     /// Helper function for FindWalkablePathToTarget, finds adjacent, Walkable GridNodes.
     /// </summary>
     /// <param name="node"></param>
+    /// <param name="validTiles"></param>
     /// <returns></returns>
-    private List<GridNode> GetInteractableAdjacents(GridNode node)
+    private List<GridNode> GetInteractableAdjacentNodes(GridNode node, ref List<Vector3Int> validTiles)
     {
-        List<Vector3Int> validTiles = new List<Vector3Int>(); // TODO: Consider making this its own data OR referencing one of the lists and adding the other
-        validTiles.AddRange(ValidMoveTiles);
-        validTiles.AddRange(ValidActionableTiles);
-        List<GridNode> adjacents = new List<GridNode>();
+        List<GridNode> adjacentNodes = new List<GridNode>();
 
         //
         Vector3Int upNeighbor = node.Position + Vector3Int.up;
         if (validTiles.Contains(upNeighbor))
         {
-            adjacents.Add(new GridNode(upNeighbor, GetIsPassable(upNeighbor)));
+            adjacentNodes.Add(new GridNode(upNeighbor, GetIsPassable(upNeighbor)));
         }
 
         Vector3Int rightNeighbor = node.Position + Vector3Int.right;
         if (validTiles.Contains(rightNeighbor))
         {
-            adjacents.Add(new GridNode(rightNeighbor, GetIsPassable(rightNeighbor)));
+            adjacentNodes.Add(new GridNode(rightNeighbor, GetIsPassable(rightNeighbor)));
         }
 
         Vector3Int leftNeighbor = node.Position + Vector3Int.left;
         if (validTiles.Contains(leftNeighbor))
         {
-            adjacents.Add(new GridNode(leftNeighbor, GetIsPassable(leftNeighbor)));
+            adjacentNodes.Add(new GridNode(leftNeighbor, GetIsPassable(leftNeighbor)));
         }
 
         Vector3Int downNeighbor = node.Position + Vector3Int.down;
         if (validTiles.Contains(downNeighbor))
         {
-            adjacents.Add(new GridNode(downNeighbor, GetIsPassable(downNeighbor)));
+            adjacentNodes.Add(new GridNode(downNeighbor, GetIsPassable(downNeighbor)));
         }
 
         //
 
-        return adjacents;
+        return adjacentNodes;
     }
 
     private bool GetIsPassable(Vector3Int tilePosition)
     {
         var tileData = BattleTilemap.GetTile(tilePosition) as TerrainScriptableTile;
-        if (tileData)
-        {
-            return tileData.IsPassable;
-        }
-        else
-        {
-            return false;
-        }
+        return tileData && tileData.IsPassable;
     }
 
     /// <summary>
-    /// Validates and ensures that the given path is Walkable and doesn't contain any Attackable tiles.
+    /// Validates and ensures that the given path is Walkable and doesn't contain any Attack-able tiles.
     /// </summary>
     /// <param name="path"></param>
     public void EnsureWalkablePath(ref List<Vector3Int> path)
     {
-        path.RemoveAll(x => !ValidMoveTiles.Contains(x) && ValidActionableTiles.Contains(x)); // ONLY remove the path indices that are solely attackable.
+        path.RemoveAll(x => !ValidMoveTiles.Contains(x) && ValidActionableTiles.Contains(x)); // ONLY remove the path indices that are solely attack-able.
     }
 }

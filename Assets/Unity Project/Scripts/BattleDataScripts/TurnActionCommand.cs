@@ -10,9 +10,9 @@ namespace Unity_Project.Scripts.BattleDataScripts
         public CharacterUnitScript Target { get; protected set; }
         public TurnAction Action { get; protected set; }
         public Vector3Int OriginPosition { get; protected set; }
-        public Vector3Int TargetPosition { get; protected set; }
+        public Vector3Int? TargetPosition { get; protected set; }
 
-        protected TurnActionCommand(CharacterUnitScript user, CharacterUnitScript target, Vector3Int targetPosition)
+        protected TurnActionCommand(CharacterUnitScript user, CharacterUnitScript target, Vector3Int? targetPosition)
         {
             User = user;
             Target = target;

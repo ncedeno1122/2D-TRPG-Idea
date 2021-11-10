@@ -6,10 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="528a24a2-98e3-46d3-b288-a5dcf3886a4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.2D-TRPG-Idea/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2D-TRPG-Idea/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Documents/ObsidianVault/.obsidian/appearance.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Documents/ObsidianVault/.obsidian/appearance.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Documents/ObsidianVault/.obsidian/workspace" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Documents/ObsidianVault/.obsidian/workspace" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/ScriptableObjects/CharacterUnits/TESTWarrior1.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/ScriptableObjects/CharacterUnits/TESTWarrior1.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/ScriptableObjects/TileUnits/Archer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/ScriptableObjects/TileUnits/Archer.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/TurnActionCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/TurnActionCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/WaitCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/WaitCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/CharacterUnitScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/CharacterUnitScript.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridHelperScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridHelperScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/CharacterSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/CharacterSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/SelectTargetFromRangeState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/SelectTargetFromRangeState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Unity Project/Scripts/UIScripts/ActionPrompt/ActionPromptScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Unity Project/Scripts/UIScripts/ActionPrompt/ActionPromptScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logs/ApiUpdaterCheck.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/ApiUpdaterCheck.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +42,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/SelectTargetFromRangeState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/TileEntity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetConfirmationState.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1zA7l5IvVSbl5z3iGGgpCgM5dGa" />
   <component name="ProjectViewState">
@@ -36,6 +51,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -80,7 +96,7 @@
       <updated>1633579194156</updated>
       <workItem from="1633579237444" duration="1805000" />
       <workItem from="1636052434147" duration="1227000" />
-      <workItem from="1636165125112" duration="29917000" />
+      <workItem from="1636165125112" duration="69908000" />
     </task>
     <servers />
   </component>
@@ -103,6 +119,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
 </project>

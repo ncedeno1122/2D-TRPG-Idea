@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -83,6 +81,14 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
             b.gameObject.SetActive(false);
         }
 
+        private void HideAllButtons()
+        {
+            foreach (var btn in ActionButtons)
+            {
+                HideButton(btn);
+            }
+        }
+
         private void ShowButton(Button b)
         {
             b.interactable = true;
@@ -91,12 +97,14 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
 
         public void HoverButton(Button b)
         {
-            b.image.color = Color.yellow;
+            //b.image.color = Color.yellow;
+            b.OnPointerEnter(null);
         }
 
         public void HoverExitButton(Button b)
         {
-            b.image.color = Color.white;
+            //b.image.color = Color.white;
+            b.OnPointerExit(null);
         }
 
         public void HoverExitAllButtons()
@@ -106,25 +114,62 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
                 HoverExitButton(b);
             }
         }
-        
-        private void ShowAllowedButtons(CharacterUnitScript unit)
+
+        public void LoadValidButtons(CharacterUnitScript user, List<string> binStringList)
         {
-            foreach (var b in ActionButtons)
+            HideAllButtons();
+
+            foreach (var binString in binStringList)
             {
-                HideButton(b);
+                // Talk
+                if (binString[0] == '1')
+                {
+                    ShowButton(TalkButton);
+                }
+                // Interact
+                if (binString[1] == '1')
+                {
+                    ShowButton(InteractButton);
+                }
+                // Attack
+                if (binString[2] == '1')
+                {
+                    ShowButton(AttackButton);
+                }
+                // Heal
+                if (binString[3] == '1')
+                {
+                    ShowButton(HealButton);
+                }
+                // Chest
+                if (binString[4] == '1')
+                {
+                    ShowButton(ChestButton);
+                }
+                // Trade
+                if (binString[5] == '1')
+                {
+                    ShowButton(TradeButton);
+                }
             }
             
+            // Items
+            if (user.CanUseItems())
+            {
+                ShowButton(ItemsButton);
+            }
+            // Convoy
+            if (user.CanUseConvoy())
+            {
+                ShowButton(ConvoyButton);
+            }
+
             // Wait
             ShowButton(WaitButton);
+            
+            // TODO: Show Items and Convoy buttons based on user (new arg?)
+            // Cancel
             ShowButton(CancelButton);
-        }
-        
-        public void OpenActionPrompt(CharacterUnitScript unit)
-        {
-            Debug.Log($"Opening ActionPromptScript for { unit.UnitData.Name }!");
-            ShowAllowedButtons(unit);
-            Show();
-
         }
     }
 }
