@@ -23,12 +23,12 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         public override void HandleInput(Vector3Int tilePosition)
         {
-            throw new System.NotImplementedException();
+            // TODO: If we click on the target's position again, we're ready to move on
         }
 
         public override void HandleInput(TurnAction action)
         {
-            throw new System.NotImplementedException();
+            //
         }
 
         public override void HandleInput(KeyCode kc)

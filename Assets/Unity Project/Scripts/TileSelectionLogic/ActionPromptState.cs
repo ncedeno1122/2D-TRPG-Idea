@@ -14,6 +14,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         private List<Vector3Int> m_ActionableTilesInRange; // Actionable Range from TargetPosition
         private List<TileEntity> m_TileEntitiesInRange;
         private readonly List<Button> m_ActionButtons;
+        private List<Button> m_ActiveActionButtons;
         private Dictionary<TileEntity, string> m_TileEntityActions;
         private Button m_SelectedButton;
         private int m_SelectedButtonIndex;
@@ -79,9 +80,22 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         public override void HandleInput(TurnAction action)
         {
             var validTileEntitiesForAction = GetTileEntitiesForAction(action, ref m_TileEntityActions);
-            
-            // TODO: Send this to SelectFromRangeState with this list if not empty
-            m_TileSelectionManager.ChangeState(new SelectTargetFromRangeState(m_TileSelectionManager, validTileEntitiesForAction));
+
+            switch (action)
+            {
+                case TurnAction.ITEMS:
+                    m_TileSelectionManager.ChangeState(new ItemInventoryState(m_TileSelectionManager));
+                    break;
+                case TurnAction.CONVOY:
+                    // TODO: Change to convoy state
+                    break;
+                case TurnAction.WAIT:
+                    // TODO: Wait
+                    break;
+                default:
+                    m_TileSelectionManager.ChangeState(new SelectTargetFromRangeState(m_TileSelectionManager, validTileEntitiesForAction));
+                    break;
+            }
         }
         
         public override void HandleInput(KeyCode kc)
@@ -90,7 +104,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
             if (!m_SelectedButton)
             {
                 m_SelectedButton = m_ActionButtons[0];
-                m_SelectedButtonIndex = -1;
+                m_SelectedButtonIndex = 0;
             }
             
             switch (kc)
@@ -108,7 +122,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                     m_SelectedButtonIndex--;
                     break;
                 case KeyCode.Return:
-                    Debug.Log($"Selected Button '{ m_SelectedButton.name }' and firing onClick!");
+                    //Debug.Log($"Selected Button '{ m_SelectedButton.name }' and firing onClick!");
                     m_SelectedButton.onClick.Invoke();
                     break;
             }
@@ -117,8 +131,8 @@ namespace Unity_Project.Scripts.TileSelectionLogic
             m_TileSelectionManager.ActionPrompt.HoverExitButton(m_SelectedButton);
             
             // Select the proper button and change its selection color
-            m_SelectedButtonIndex = Mathf.Clamp(m_SelectedButtonIndex, 0, m_ActionButtons.Count - 1);
-            m_SelectedButton = m_ActionButtons[m_SelectedButtonIndex];
+            m_SelectedButtonIndex = Mathf.Clamp(m_SelectedButtonIndex, 0, m_ActiveActionButtons.Count - 1);
+            m_SelectedButton = m_ActiveActionButtons[m_SelectedButtonIndex];
             m_TileSelectionManager.ActionPrompt.HoverButton(m_SelectedButton);
         }
 
@@ -131,7 +145,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         private void LoadProperActionButtons()
         {
-            m_TileSelectionManager.ActionPrompt.LoadValidButtons(m_TileSelectionManager.CurrentMoveInProgress.User, m_TileEntityActions.Values.ToList());
+            m_ActiveActionButtons = m_TileSelectionManager.ActionPrompt.LoadValidButtons(m_TileSelectionManager.CurrentMoveInProgress.User, m_TileEntityActions.Values.ToList());
         }
 
         /// <summary>

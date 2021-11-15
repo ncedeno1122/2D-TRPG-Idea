@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-[CustomEditor(typeof(ItemDataBuilder))]
-public class ItemDataEditor : Editor
+namespace Unity_Project.Scripts.CustomEditor
 {
-    public TextAsset ItemCSV;
-
-    public override void OnInspectorGUI()
+    [UnityEditor.CustomEditor(typeof(ItemDataBuilder))]
+    public class ItemDataEditor : Editor
     {
-        base.OnInspectorGUI();
+        public TextAsset ItemCSV;
 
-        ItemDataBuilder itemDataBuilder = (ItemDataBuilder)target;
-
-        if (GUILayout.Button("Create Items from CSV"))
+        public override void OnInspectorGUI()
         {
-            itemDataBuilder.BuildItemsFromCSV(ItemCSV.text);
+            base.OnInspectorGUI();
+
+            ItemDataBuilder itemDataBuilder = (ItemDataBuilder)target;
+
+            if (GUILayout.Button("Create Items from CSV"))
+            {
+                itemDataBuilder.BuildItemsFromCSV(ItemCSV.text);
+            }
         }
     }
 }

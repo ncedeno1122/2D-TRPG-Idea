@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity_Project.Scripts.BattleDataScripts;
 using UnityEngine;
 
@@ -9,7 +7,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
     public class SelectTargetFromRangeState : TileSelectionState
     {
         private List<TileEntity> m_TargetsInRange;
-        private int m_SelectedTargetIndex = -1;
+        private int m_SelectedTargetIndex = 0;
         
         public SelectTargetFromRangeState(TileSelectionManager tsm, List<TileEntity> entitiesInRange) : base(tsm)
         {

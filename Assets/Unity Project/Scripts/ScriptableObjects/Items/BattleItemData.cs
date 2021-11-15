@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BattleItemData : ScriptableObject, IBattleItem
+public abstract class BattleItemData : ItemData, IBattleItem
 {
     [Header("BattleItem Data")]
     [SerializeField]
@@ -17,6 +17,8 @@ public abstract class BattleItemData : ScriptableObject, IBattleItem
 
     // From IItem
 
+    //
+    /*
     [SerializeField]
     protected string m_ItemName;
 
@@ -47,5 +49,5 @@ public abstract class BattleItemData : ScriptableObject, IBattleItem
 
     public Sprite Icon { get => m_Icon; set => m_Icon = value; }
 
-    //
+    */
 }

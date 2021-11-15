@@ -4,28 +4,28 @@
     "type": "split",
     "children": [
       {
-        "id": "7093d68cbb2f86ea",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "11-8 Grand Canyon Development.md",
-            "mode": "source"
-          }
-        },
-        "group": "4afb068e451797e4"
-      },
-      {
         "id": "20d63b80f2073395",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "11-8 Grand Canyon Development.md",
+            "file": "11-12 Work.md",
+            "mode": "source"
+          }
+        },
+        "group": "4eef7305e6a94fb3"
+      },
+      {
+        "id": "533cb506d5889472",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "11-12 Work.md",
             "mode": "preview"
           }
         },
-        "group": "4afb068e451797e4"
+        "group": "4eef7305e6a94fb3"
       }
     ],
     "direction": "vertical"
@@ -81,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "11-8 Grand Canyon Development.md",
+                "file": "11-12 Work.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,15 +99,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "7093d68cbb2f86ea",
+  "active": "20d63b80f2073395",
   "lastOpenFiles": [
+    "11-12 Work.md",
+    "11-10 Work.md",
+    "11-11.md",
     "11-8 Grand Canyon Development.md",
     "11-6 Tightening up Earlier States.md",
     "11-5 SNAKES ON THE PLANE.md",
     "11-4 TileSelectionState.md",
     "11-3 Subclass Sandbox Notes.md",
     "11-1 - State Notes.md",
-    "10-21 Next Steps.md",
-    "10-23 Next Steps.md"
+    "10-21 Next Steps.md"
   ]
 }

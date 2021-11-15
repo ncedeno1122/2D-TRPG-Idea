@@ -115,8 +115,9 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
             }
         }
 
-        public void LoadValidButtons(CharacterUnitScript user, List<string> binStringList)
+        public List<Button> LoadValidButtons(CharacterUnitScript user, List<string> binStringList)
         {
+            List<Button> ActiveButtons = new List<Button>();
             HideAllButtons();
 
             foreach (var binString in binStringList)
@@ -125,31 +126,37 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
                 if (binString[0] == '1')
                 {
                     ShowButton(TalkButton);
+                    ActiveButtons.Add(TalkButton);
                 }
                 // Interact
                 if (binString[1] == '1')
                 {
                     ShowButton(InteractButton);
+                    ActiveButtons.Add(InteractButton);
                 }
                 // Attack
                 if (binString[2] == '1')
                 {
                     ShowButton(AttackButton);
+                    ActiveButtons.Add(AttackButton);
                 }
                 // Heal
                 if (binString[3] == '1')
                 {
                     ShowButton(HealButton);
+                    ActiveButtons.Add(HealButton);
                 }
                 // Chest
                 if (binString[4] == '1')
                 {
                     ShowButton(ChestButton);
+                    ActiveButtons.Add(ChestButton);
                 }
                 // Trade
                 if (binString[5] == '1')
                 {
                     ShowButton(TradeButton);
+                    ActiveButtons.Add(TradeButton);
                 }
             }
             
@@ -157,19 +164,25 @@ namespace Unity_Project.Scripts.UIScripts.ActionPrompt
             if (user.CanUseItems())
             {
                 ShowButton(ItemsButton);
+                ActiveButtons.Add(ItemsButton);
             }
             // Convoy
             if (user.CanUseConvoy())
             {
                 ShowButton(ConvoyButton);
+                ActiveButtons.Add(ConvoyButton);
             }
 
             // Wait
             ShowButton(WaitButton);
+            ActiveButtons.Add(WaitButton);
             
             // TODO: Show Items and Convoy buttons based on user (new arg?)
             // Cancel
             ShowButton(CancelButton);
+            ActiveButtons.Add(CancelButton);
+
+            return ActiveButtons;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity_Project.Scripts.BattleDataScripts;
 using Unity_Project.Scripts.UIScripts.ActionPrompt;
+using Unity_Project.Scripts.UIScripts.InventoryPanel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         public GridCursorController GridCursor;
 
         public ActionPromptScript ActionPrompt;
+        public InventoryPanelScript InventoryPanel;
 
         private void Start()
         {

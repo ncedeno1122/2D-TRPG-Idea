@@ -8,8 +8,8 @@ public class CharacterUnitScript : TileEntity
     public int CurrentHP;
     public CharacterUnit UnitData;
 
-    [SerializeField] // TODO: It would be really nice to expose this somehow. [SerializeReference] won't work...
-    public IItem[] Inventory = new IItem[INVENTORY_SIZE]; // It's said that an abstract base class would work here...
+    // TODO: It would be really nice to expose this somehow. [SerializeReference] won't work...
+    public ItemData[] Inventory = new ItemData[INVENTORY_SIZE]; // It's said that an abstract base class would work here...
 
     public BattleItemData EquippedBattleItem;
 
@@ -42,7 +42,7 @@ public class CharacterUnitScript : TileEntity
         if (Inventory.Length != INVENTORY_SIZE)
         {
             Debug.LogWarning("Don't change the StoredInventory field's array size!");
-            System.Array.Resize(ref Inventory, INVENTORY_SIZE);
+            Array.Resize(ref Inventory, INVENTORY_SIZE);
         }
 
         // Equip first weapon in inventory if undefined
