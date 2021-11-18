@@ -14,6 +14,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/SoundEffectPlayerScript.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" root0="FORCE_HIGHLIGHTING" />
@@ -28,7 +29,6 @@
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/ScriptableTiles/TerrainScriptableTile.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/ScriptableObjects/TileScriptableObjects/CharacterUnit.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TurnData/TurnAction.cs" />
-        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/CharacterUnitScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TurnData/TurnData.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TurnData/TurnActionCommand.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TurnData/PhaseData.cs" />
@@ -39,16 +39,23 @@
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/TurnActionCommand.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/TurnData.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/WaitCommand.cs" />
-        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionState.cs" />
-        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/TurnAction.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/UIScripts/ActionPrompt/ActionPromptScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridCursorController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/CharacterSelectionState.cs" />
-        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/GridHelperScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/BattleDataScripts/BattleDataManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/SoundtrackPlayerScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/AudioManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/CharacterSelectionState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/SoundEffectPlayerScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetSelectionState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ActionPromptState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/SelectTargetFromRangeState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TargetConfirmationState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/ItemInventoryState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/CharacterUnitScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Unity Project/Scripts/TileSelectionLogic/TileSelectionState.cs" />
       </list>
     </option>
   </component>
@@ -71,7 +78,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -110,6 +117,8 @@
       <workItem from="1636038454764" duration="6703000" />
       <workItem from="1636090881874" duration="5429000" />
       <workItem from="1636100774390" duration="1910000" />
+      <workItem from="1637023803289" duration="2168000" />
+      <workItem from="1637212071332" duration="2961000" />
     </task>
     <servers />
   </component>
@@ -210,10 +219,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="849" y="264" key="RiderGenerateDialog/0.0.1920.1080/1920.182.1920.1080@0.0.1920.1080" timestamp="1636040812540" />
-    <state x="461" y="185" key="SettingsEditor" timestamp="1636098644592">
+    <state x="461" y="185" key="SettingsEditor" timestamp="1637214907391">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="461" y="185" key="SettingsEditor/0.0.1920.1080/1920.182.1920.1080@0.0.1920.1080" timestamp="1636098644592" />
+    <state x="461" y="185" key="SettingsEditor/0.0.1920.1080/1920.182.1920.1080@0.0.1920.1080" timestamp="1637214907391" />
     <state x="616" y="250" width="672" height="677" key="run.anything.popup" timestamp="1633306828528">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

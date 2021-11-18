@@ -14,9 +14,11 @@ public class CharacterUnitScript : TileEntity
     public BattleItemData EquippedBattleItem;
 
     private const int INVENTORY_SIZE = 5;
-    private const float MOVEMENT_SPEED = 15f;
+    private const float MOVEMENT_SPEED = 30f;
     private bool m_isMoving;
     private bool IsDead;
+    
+    private IEnumerator m_FollowCRT;
     
     private Animator m_Animator;
     
@@ -67,6 +69,7 @@ public class CharacterUnitScript : TileEntity
     /// <param name="tilePosition"></param>
     public void SnapToPosition(Vector3Int tilePosition)
     {
+        StopFollowPathCRT();
         transform.position = m_Grid.GetCellCenterWorld(tilePosition);
         TilePosition = tilePosition;
     }
@@ -81,8 +84,8 @@ public class CharacterUnitScript : TileEntity
 
         if (!m_isMoving)
         {
-            var followPathCRT = FollowPathCRT(pathArr);
-            StartCoroutine(followPathCRT);
+            m_FollowCRT = FollowPathCRT(pathArr);
+            StartCoroutine(m_FollowCRT);
         }
     }
 
@@ -123,6 +126,15 @@ public class CharacterUnitScript : TileEntity
         m_Animator.SetInteger("VerticalMoveDirection", 0);
         m_Animator.SetBool("IsMoving", false);
         //TilePosition = Vector3Int.FloorToInt(pathArr[0]); Position is committed when the TileActionCommand is confirmed.
+    }
+
+    private void StopFollowPathCRT()
+    {
+        StopCoroutine(m_FollowCRT);
+        m_isMoving = false;
+        m_Animator.SetInteger("HorizontalMoveDirection", 0);
+        m_Animator.SetInteger("VerticalMoveDirection", 0);
+        m_Animator.SetBool("IsMoving", false);
     }
 
     private bool HasWeaponItem()

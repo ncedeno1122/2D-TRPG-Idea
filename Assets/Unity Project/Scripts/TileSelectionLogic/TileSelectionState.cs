@@ -5,9 +5,9 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 {
     public abstract class TileSelectionState
     {
-        protected TileSelectionManager m_TileSelectionManager;
-        protected GridHelperScript m_GridHelper;
-        protected GridCursorController m_GridCursor;
+        protected readonly TileSelectionManager m_TileSelectionManager;
+        protected readonly GridHelperScript m_GridHelper;
+        protected readonly GridCursorController m_GridCursor;
         
         protected TileSelectionState(TileSelectionManager tsm)
         {
@@ -23,5 +23,20 @@ namespace Unity_Project.Scripts.TileSelectionLogic
         public abstract void HandleInput(TurnAction action);
         public abstract void HandleInput(KeyCode kc);
         public abstract void HandleRevertState();
+        
+        protected void PlayConfirmSound()
+        {
+            AudioManager.Instance.PlaySFXByName("UIMenu_Accept");
+        }
+
+        protected void PlayDeclineSound()
+        {
+            AudioManager.Instance.PlaySFXByName("UIMenu_Decline");
+        }
+
+        protected void PlaySelectSound()
+        {
+            AudioManager.Instance.PlaySFXByName("UIMenu_Select1");
+        }
     }
 }

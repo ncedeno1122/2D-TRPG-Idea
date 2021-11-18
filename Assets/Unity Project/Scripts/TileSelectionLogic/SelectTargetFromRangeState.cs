@@ -40,10 +40,12 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                 var target = m_GridHelper.GetTileEntityOnTile(tilePosition);
                 m_TileSelectionManager.CurrentMoveInProgress.Target = target;
                 
+                PlayConfirmSound();
                 m_TileSelectionManager.ChangeState(new TargetConfirmationState(m_TileSelectionManager, target));
             }
             else
             {
+                PlayDeclineSound();
                 HandleRevertState();
             }
         }

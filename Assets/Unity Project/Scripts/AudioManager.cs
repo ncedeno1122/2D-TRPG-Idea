@@ -57,6 +57,11 @@ public class AudioManager
 
     // SFX
 
+    public void PlaySFXByName(string name)
+    {
+        AudioSource.PlayClipAtPoint(m_SFXClips[name], Vector3.zero);
+    }
+    
     public void PlaySFXByName(string name, Vector3 position)
     {
         AudioSource.PlayClipAtPoint(m_SFXClips[name], position);

@@ -38,6 +38,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         public override void HandleRevertState()
         {
+            PlayDeclineSound();
             m_TileSelectionManager.ChangeState(new TargetSelectionState(m_TileSelectionManager));
         }
     }

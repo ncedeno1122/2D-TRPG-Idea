@@ -82,6 +82,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                 }
                 
                 // Finally, advance state
+                PlaySelectSound();
                 m_TileSelectionManager.ChangeState(DetermineNextState(tilePosition));
             }
             else
@@ -91,6 +92,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                 m_GridHelper.ClearActionTilemap();
                 
                 // Also, revert to the last state.
+                PlayDeclineSound();
                 HandleRevertState();
             }
         }

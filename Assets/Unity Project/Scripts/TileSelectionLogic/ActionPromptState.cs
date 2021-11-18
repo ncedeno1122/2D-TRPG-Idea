@@ -84,6 +84,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
             switch (action)
             {
                 case TurnAction.ITEMS:
+                    PlaySelectSound();
                     m_TileSelectionManager.ChangeState(new ItemInventoryState(m_TileSelectionManager));
                     break;
                 case TurnAction.CONVOY:
@@ -93,6 +94,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                     // TODO: Wait
                     break;
                 default:
+                    PlaySelectSound();
                     m_TileSelectionManager.ChangeState(new SelectTargetFromRangeState(m_TileSelectionManager, validTileEntitiesForAction));
                     break;
             }
@@ -138,6 +140,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
 
         public override void HandleRevertState()
         {
+            PlayDeclineSound();
             m_TileSelectionManager.ChangeState(new TargetSelectionState(m_TileSelectionManager));
         }
         

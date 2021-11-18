@@ -38,6 +38,7 @@ namespace Unity_Project.Scripts.TileSelectionLogic
                 m_TileSelectionManager.CurrentMoveInProgress.OriginPosition = tilePosition;
                 
                 // Advance state only if we have a valid character on the tile.
+                PlaySelectSound();
                 m_TileSelectionManager.ChangeState(new TargetSelectionState(m_TileSelectionManager));
             }
             else

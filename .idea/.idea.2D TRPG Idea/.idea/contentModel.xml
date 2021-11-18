@@ -20,6 +20,7 @@
             </e>
             <e p="CharacterUnitScript.cs" t="Include" />
             <e p="CustomEditor" t="Include">
+              <e p="CharacterUnitEditor.cs" t="Include" />
               <e p="ItemDataBuilder.cs" t="Include" />
               <e p="ItemDataEditor.cs" t="Include" />
             </e>
@@ -56,10 +57,15 @@
                 <e p="TileUnit.cs" t="Include" />
               </e>
             </e>
+            <e p="SoundEffectPlayerScript.cs" t="Include" />
             <e p="SoundtrackPlayerScript.cs" t="Include" />
+            <e p="TileEntity.cs" t="Include" />
             <e p="TileSelectionLogic" t="Include">
               <e p="ActionPromptState.cs" t="Include" />
               <e p="CharacterSelectionState.cs" t="Include" />
+              <e p="ItemInventoryState.cs" t="Include" />
+              <e p="SelectTargetFromRangeState.cs" t="Include" />
+              <e p="TargetConfirmationState.cs" t="Include" />
               <e p="TargetSelectionState.cs" t="Include" />
               <e p="TileSelectionManager.cs" t="Include" />
               <e p="TileSelectionState.cs" t="Include" />
@@ -67,6 +73,10 @@
             <e p="UIScripts" t="Include">
               <e p="ActionPrompt" t="Include">
                 <e p="ActionPromptScript.cs" t="Include" />
+              </e>
+              <e p="InventoryPanel" t="Include">
+                <e p="InventoryPanelScript.cs" t="Include" />
+                <e p="ItemPanelScript.cs" t="Include" />
               </e>
             </e>
           </e>
